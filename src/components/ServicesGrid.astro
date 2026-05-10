@@ -1,0 +1,163 @@
+---
+import { getDictionary, servicePath, type Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+
+const icons: Record<string, string> = {
+  'dijital-strateji':
+    '<path d="M12 2 4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4Zm0 4 3 5h-2l1 4-5-5h2L11 6Z"/>',
+  'digital-strategy':
+    '<path d="M12 2 4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4Zm0 4 3 5h-2l1 4-5-5h2L11 6Z"/>',
+  'surec-otomasyonu':
+    '<path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 1 0-2 4.9l1.4 1.4A9 9 0 1 1 12 3Zm5 6 4 4-4 4v-3h-4v-2h4V9Z"/>',
+  'process-automation':
+    '<path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 1 0-2 4.9l1.4 1.4A9 9 0 1 1 12 3Zm5 6 4 4-4 4v-3h-4v-2h4V9Z"/>',
+  'web-ve-mobil-gelistirme':
+    '<path d="M3 4h14v8H3V4Zm0 10h14v2H3v-2Zm17-7h2v14h-2V7Z"/>',
+  'web-and-mobile-development':
+    '<path d="M3 4h14v8H3V4Zm0 10h14v2H3v-2Zm17-7h2v14h-2V7Z"/>',
+  'veri-analitigi':
+    '<path d="M3 21V3h2v18H3Zm4-2V9h3v10H7Zm5 0V5h3v14h-3Zm5 0v-7h3v7h-3Z"/>',
+  'data-analytics':
+    '<path d="M3 21V3h2v18H3Zm4-2V9h3v10H7Zm5 0V5h3v14h-3Zm5 0v-7h3v7h-3Z"/>',
+  'bulut-gocu':
+    '<path d="M7 19a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 10.05 4 4 0 0 1 17 18H7Zm5-9-4 4h3v3h2v-3h3l-4-4Z"/>',
+  'cloud-migration':
+    '<path d="M7 19a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 10.05 4 4 0 0 1 17 18H7Zm5-9-4 4h3v3h2v-3h3l-4-4Z"/>',
+  'e-ticaret':
+    '<path d="M7 4h-3v2h2l3.6 7.6-1.4 2.5A2 2 0 0 0 10 19h9v-2h-9l1-2h7a2 2 0 0 0 1.8-1.1L23 7H6L4.3 3H2"/>',
+  'e-commerce':
+    '<path d="M7 4h-3v2h2l3.6 7.6-1.4 2.5A2 2 0 0 0 10 19h9v-2h-9l1-2h7a2 2 0 0 0 1.8-1.1L23 7H6L4.3 3H2"/>',
+};
+---
+
+<section id="services" class="services" aria-labelledby="services-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">{t.services.eyebrow}</span>
+      <h2 id="services-title">{t.services.title}</h2>
+      <p>{t.services.subtitle}</p>
+    </div>
+
+    <ul class="services-grid">
+      {t.services.items.map((service, i) => (
+        <li class="service-card reveal" data-tilt style={`transition-delay: ${i * 80}ms`}>
+          <a href={servicePath(locale, service.slug)} class="service-link">
+            <div class="service-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" set:html={icons[service.slug] ?? ''} />
+            </div>
+            <h3>{service.title}</h3>
+            <p>{service.summary}</p>
+            <span class="service-cta">
+              {t.services.ctaLabel}
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .service-card {
+    position: relative;
+    border: 1px solid var(--border);
+    background: linear-gradient(160deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
+      box-shadow 0.4s var(--ease-out);
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), var(--accent-fade), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+    pointer-events: none;
+  }
+  .service-card:hover {
+    border-color: var(--accent-fade);
+    box-shadow: var(--shadow-accent);
+  }
+  .service-card:hover::before {
+    opacity: 1;
+  }
+  .service-link {
+    display: block;
+    padding: var(--space-6);
+    height: 100%;
+  }
+  .service-icon {
+    width: 54px;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: rgba(225, 29, 46, 0.12);
+    color: var(--accent);
+    margin-bottom: var(--space-5);
+    transition: transform 0.4s var(--ease-out), background 0.4s var(--ease-out);
+  }
+  .service-card:hover .service-icon {
+    transform: scale(1.08) rotate(-4deg);
+    background: var(--accent);
+    color: white;
+  }
+  .service-card h3 {
+    margin-bottom: var(--space-3);
+  }
+  .service-card p {
+    font-size: 0.95rem;
+    margin-bottom: var(--space-5);
+    color: var(--text-mute);
+  }
+  .service-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    transition: gap 0.3s var(--ease-out);
+  }
+  .service-card:hover .service-cta {
+    gap: 14px;
+  }
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.service-card').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (((e as PointerEvent).clientX - rect.left) / rect.width) * 100;
+      const y = (((e as PointerEvent).clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', `${x}%`);
+      card.style.setProperty('--my', `${y}%`);
+    });
+  });
+</script>

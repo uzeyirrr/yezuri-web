@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "siteName": "Yezuri",
+    "tagline": "Digital Transformation Agency",
+    "homeTitle": "Yezuri — Digital Transformation Agency",
+    "homeDescription": "Yezuri is a digital transformation agency accelerating brands with process automation, data analytics, cloud migration and custom software.",
+    "ogAlt": "Yezuri — Digital Transformation Agency"
+  },
+  "nav": {
+    "services": "Services",
+    "process": "Approach",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Let's talk"
+  },
+  "hero": {
+    "eyebrow": "Digital Transformation Agency",
+    "status": "Currently taking on new projects",
+    "titleLead": "We grow brands with",
+    "titleWords": ["strategy", "automation", "data", "software"],
+    "titleTail": "into the future.",
+    "subtitle": "Yezuri delivers end-to-end digital transformation through strategy, automation, data and software. Fast, measurable, lasting results.",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "Explore our services",
+    "cardLiveLabel": "Live right now",
+    "cardLiveProject": "Cloud migration",
+    "cardMetricValue": "+240%",
+    "cardMetricLabel": "Average efficiency lift",
+    "cardRatingLabel": "Client rating",
+    "trustMicro": "40+ brands grew with Yezuri"
+  },
+  "trust": {
+    "eyebrow": "Proven Results",
+    "items": [
+      { "value": "120", "suffix": "+", "label": "Projects delivered" },
+      { "value": "45", "suffix": "+", "label": "Enterprise clients" },
+      { "value": "8", "suffix": " yrs", "label": "Industry expertise" },
+      { "value": "98", "suffix": "%", "label": "Client satisfaction" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "End-to-end digital transformation",
+    "subtitle": "From strategy to execution, from measurement to optimization — we cover every layer of your business.",
+    "ctaLabel": "View details",
+    "items": [
+      {
+        "slug": "digital-strategy",
+        "title": "Digital Strategy",
+        "summary": "Tailored digital transformation roadmaps and long-term vision planning."
+      },
+      {
+        "slug": "process-automation",
+        "title": "Process Automation",
+        "summary": "Automate repetitive workflows with RPA and custom integrations."
+      },
+      {
+        "slug": "web-and-mobile-development",
+        "title": "Web & Mobile Development",
+        "summary": "Performance-driven enterprise web platforms and mobile apps."
+      },
+      {
+        "slug": "data-analytics",
+        "title": "Data Analytics",
+        "summary": "Decision-support dashboards, BI solutions and real-time reporting."
+      },
+      {
+        "slug": "cloud-migration",
+        "title": "Cloud Migration",
+        "summary": "Migrate legacy infrastructure to modern, scalable cloud architectures."
+      },
+      {
+        "slug": "e-commerce",
+        "title": "E-Commerce Solutions",
+        "summary": "High-converting e-commerce stores, integrations and growth."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Our Approach",
+    "title": "Clear steps, measurable outcomes",
+    "subtitle": "Every engagement runs on a disciplined process. Transparency, speed and quality, always.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Discovery",
+        "detail": "Deep analysis of your current state, goals and opportunities."
+      },
+      {
+        "step": "02",
+        "title": "Strategy",
+        "detail": "Prioritized, measurable roadmap aligned with your objectives."
+      },
+      {
+        "step": "03",
+        "title": "Execution",
+        "detail": "Agile delivery with rapid feedback loops and continuous progress."
+      },
+      {
+        "step": "04",
+        "title": "Measure & Optimize",
+        "detail": "Ongoing improvement and growth driven by KPIs."
+      }
+    ]
+  },
+  "projects": {
+    "eyebrow": "Our Work",
+    "title": "What we've built together",
+    "subtitle": "Selected case studies across industries. More to come.",
+    "items": [
+      { "title": "Logistics SaaS Platform", "category": "Software Development", "metric": "+240% efficiency" },
+      { "title": "Retail Analytics Dashboard", "category": "Data Analytics", "metric": "12 locations live" },
+      { "title": "Bank Process Automation", "category": "RPA / Automation", "metric": "320 hrs/month saved" },
+      { "title": "E-Commerce Re-platform", "category": "E-Commerce", "metric": "+180% conversion" },
+      { "title": "Cloud Migration", "category": "Cloud / DevOps", "metric": "65% cost reduction" },
+      { "title": "Mobile Field App", "category": "Mobile Development", "metric": "8,000+ active users" }
+    ]
+  },
+  "clients": {
+    "eyebrow": "Our Clients",
+    "title": "Trusted by brands"
+  },
+  "testimonials": {
+    "eyebrow": "Testimonials",
+    "title": "What our clients say",
+    "items": [
+      {
+        "quote": "The Yezuri team turned our digital transformation from guesswork into a measurable path. Operational efficiency doubled.",
+        "author": "A. Yılmaz",
+        "role": "COO, Logistics"
+      },
+      {
+        "quote": "Speed and quality can coexist — Yezuri proved it. Their analytics dashboard reshaped our decision-making.",
+        "author": "M. Demir",
+        "role": "Director, Retail"
+      },
+      {
+        "quote": "Not just a development agency, but a true strategic partner. Every recommendation has paid off.",
+        "author": "E. Kaya",
+        "role": "CTO, Fintech"
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Questions you might have",
+    "items": [
+      {
+        "q": "How long does a project take?",
+        "a": "It depends on the scope. MVP projects can ship in 4-8 weeks, while enterprise transformations run 3-12 months. We provide a clear timeline after the first call."
+      },
+      {
+        "q": "Can I just get consulting?",
+        "a": "Absolutely. We offer digital strategy and process analysis as standalone packages — we can shape your roadmap even if we don't deliver the build."
+      },
+      {
+        "q": "Which industries do you serve?",
+        "a": "Finance, retail, logistics, manufacturing, healthcare and e-commerce — among others. Broad cross-industry experience."
+      },
+      {
+        "q": "Do you integrate with our existing software?",
+        "a": "Yes. We securely integrate with ERP, CRM, e-commerce and custom systems. API design and data sync are core capabilities."
+      },
+      {
+        "q": "Do you provide post-launch support?",
+        "a": "Yes — SLA-backed maintenance and continuous improvement packages are available for every project."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Buy us a coffee, let's talk about your digital future",
+    "subtitle": "Reach out via any channel below. We respond within 24 hours.",
+    "whatsapp": "Message on WhatsApp",
+    "email": "Send us an email",
+    "phone": "Give us a call"
+  },
+  "footer": {
+    "tagline": "We design and deliver the digital future of brands — end to end.",
+    "servicesTitle": "Services",
+    "companyTitle": "Company",
+    "contactTitle": "Contact",
+    "rights": "All rights reserved.",
+    "kvkk": "Privacy Notice",
+    "privacy": "Privacy Policy"
+  },
+  "service": {
+    "what": "What it is",
+    "offerings": "What we offer",
+    "process": "Process",
+    "kpis": "Outcomes / KPIs",
+    "otherServices": "Other Services",
+    "ctaTitle": "Let's talk about this service",
+    "ctaSubtitle": "Start with a short call. We'll plan the right approach for you together."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for may have moved or been removed.",
+    "cta": "Back to home"
+  }
+}

@@ -1,0 +1,76 @@
+---
+import { getDictionary, type Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+
+const placeholders = ['NOVA', 'KAIROS', 'AXION', 'LUMEN', 'VERTEX', 'OBSIDIA', 'PRISMA', 'HORIZON'];
+---
+
+<section class="clients" aria-labelledby="clients-title">
+  <div class="container">
+    <div class="section-head reveal" style="margin-bottom: 2rem;">
+      <span class="eyebrow">{t.clients.eyebrow}</span>
+      <h2 id="clients-title" class="clients-title">{t.clients.title}</h2>
+    </div>
+
+    <div class="logo-marquee reveal" aria-hidden="false">
+      <div class="logo-track">
+        {placeholders.concat(placeholders).map((name) => (
+          <span class="logo-pill">{name}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+  .clients-title {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  }
+  .logo-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+  .logo-track {
+    display: flex;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    animation: marquee 38s linear infinite;
+    width: max-content;
+  }
+  .logo-pill {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    padding: var(--space-3) var(--space-5);
+    transition: color 0.3s var(--ease-out);
+    user-select: none;
+  }
+  .logo-pill:hover {
+    color: var(--accent);
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo-track {
+      animation: none;
+    }
+  }
+</style>

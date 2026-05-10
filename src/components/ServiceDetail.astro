@@ -1,0 +1,356 @@
+---
+import {
+  getDictionary,
+  localizedPath,
+  servicePath,
+  whatsappLink,
+  type Locale,
+} from '~/i18n/ui';
+import { getServices, type ServiceDetail } from '~/data/services';
+
+export interface Props {
+  locale: Locale;
+  service: ServiceDetail;
+}
+
+const { locale, service } = Astro.props;
+const t = getDictionary(locale);
+const home = localizedPath(locale, '/');
+
+const wa = whatsappLink(
+  locale === 'tr'
+    ? `Merhaba, ${service.title} hizmetiniz hakkında konuşmak istiyorum.`
+    : `Hi, I would like to talk about your ${service.title} service.`,
+);
+
+const others = getServices(locale).filter((s) => s.slug !== service.slug);
+---
+
+<article class="svc">
+  <header class="svc-hero">
+    <div class="container">
+      <nav class="crumbs reveal" aria-label="Breadcrumb">
+        <ol>
+          <li><a href={home}>{t.meta.siteName}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href={`${home}#services`}>{t.nav.services}</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{service.title}</li>
+        </ol>
+      </nav>
+      <span class="eyebrow reveal">{t.nav.services}</span>
+      <h1 class="reveal">{service.title}</h1>
+      <p class="svc-summary reveal">{service.summary}</p>
+      <div class="reveal">
+        <a class="btn btn-primary" href={wa} target="_blank" rel="noopener" data-magnetic>
+          {locale === 'tr' ? 'Bu hizmeti konuşalım' : 'Talk about this service'}
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="svc-section">
+    <div class="container svc-grid">
+      <div class="reveal">
+        <h2>{t.service.what}</h2>
+      </div>
+      <div class="reveal">
+        <p class="svc-intro">{service.intro}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="svc-section svc-section-alt">
+    <div class="container svc-grid">
+      <div class="reveal">
+        <span class="eyebrow">{t.service.offerings}</span>
+        <h2>{locale === 'tr' ? 'Kapsamımız' : 'Our scope'}</h2>
+      </div>
+      <ul class="svc-offerings">
+        {service.offerings.map((item, i) => (
+          <li class="reveal" style={`transition-delay: ${i * 60}ms`}>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{t.service.process}</span>
+        <h2>{locale === 'tr' ? 'Nasıl çalışıyoruz?' : 'How we work'}</h2>
+      </div>
+      <ol class="svc-steps">
+        {service.process.map((step, i) => (
+          <li class="reveal" style={`transition-delay: ${i * 80}ms`}>
+            <div class="svc-step-num">{step.step}</div>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="svc-section svc-section-alt">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">{t.service.kpis}</span>
+        <h2>{locale === 'tr' ? 'Ölçülebilir sonuçlar' : 'Measurable outcomes'}</h2>
+      </div>
+      <ul class="svc-kpis">
+        {service.kpis.map((kpi, i) => (
+          <li class="reveal" style={`transition-delay: ${i * 80}ms`}>
+            <strong>{kpi.value}</strong>
+            <span>{kpi.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="svc-section">
+    <div class="container">
+      <div class="svc-others-card reveal">
+        <div>
+          <span class="eyebrow">{t.service.otherServices}</span>
+          <h2>{t.service.ctaTitle}</h2>
+          <p>{t.service.ctaSubtitle}</p>
+          <a class="btn btn-primary" href={wa} target="_blank" rel="noopener" data-magnetic>
+            {locale === 'tr' ? 'WhatsApp ile yazın' : 'Message on WhatsApp'}
+          </a>
+        </div>
+        <ul class="svc-others-list">
+          {others.slice(0, 4).map((o) => (
+            <li>
+              <a href={servicePath(locale, o.slug)}>
+                <span>{o.title}</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</article>
+
+<style>
+  .svc-hero {
+    padding-top: clamp(5rem, 12vw, 8rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .svc-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 60vmax;
+    height: 60vmax;
+    background: radial-gradient(circle, var(--accent-fade), transparent 60%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: 0.85rem;
+    color: var(--text-mute);
+    margin-bottom: var(--space-5);
+  }
+  .crumbs a {
+    color: var(--text-mute);
+    transition: color 0.2s var(--ease-out);
+  }
+  .crumbs a:hover {
+    color: var(--accent);
+  }
+  .crumbs [aria-current='page'] {
+    color: var(--accent);
+  }
+  .svc-hero h1 {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+  }
+  .svc-summary {
+    margin-top: var(--space-4);
+    max-width: 60ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--text-mute);
+    margin-bottom: var(--space-5);
+  }
+  .svc-section {
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+  .svc-section-alt {
+    background: linear-gradient(180deg, transparent, rgba(225, 29, 46, 0.03), transparent);
+    border-block: 1px solid var(--border);
+  }
+  .svc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+  .svc-grid h2 {
+    margin-top: var(--space-3);
+  }
+  .svc-intro {
+    font-size: 1.05rem;
+    color: var(--text-mute);
+    line-height: 1.75;
+  }
+  .svc-offerings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .svc-offerings li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-elev);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .svc-offerings svg {
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .svc-steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+  }
+  .svc-steps li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .svc-step-num {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-pill);
+    background: rgba(225, 29, 46, 0.12);
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .svc-steps h3 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .svc-steps p {
+    font-size: 0.95rem;
+  }
+  .svc-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .svc-kpis li {
+    padding: var(--space-6);
+    background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: left;
+  }
+  .svc-kpis strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+  .svc-kpis span {
+    display: block;
+    margin-top: var(--space-2);
+    color: var(--text-mute);
+    font-size: 0.92rem;
+  }
+  .svc-others-card {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-7);
+    padding: clamp(2rem, 5vw, 3.5rem);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(140deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border: 1px solid var(--border-strong);
+    position: relative;
+    overflow: hidden;
+  }
+  .svc-others-card::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 50%;
+    height: 140%;
+    background: radial-gradient(circle, var(--accent-fade), transparent 60%);
+    pointer-events: none;
+  }
+  .svc-others-card h2 {
+    margin: var(--space-3) 0;
+  }
+  .svc-others-card p {
+    margin-bottom: var(--space-5);
+    max-width: 50ch;
+  }
+  .svc-others-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .svc-others-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-glass);
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--text);
+    transition: border-color 0.2s var(--ease-out), background 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+  .svc-others-list a:hover {
+    border-color: var(--accent);
+    background: rgba(225, 29, 46, 0.08);
+    color: var(--accent);
+  }
+  @media (max-width: 880px) {
+    .svc-grid,
+    .svc-others-card {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .svc-offerings,
+    .svc-steps,
+    .svc-kpis {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

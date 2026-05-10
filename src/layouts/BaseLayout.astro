@@ -1,0 +1,203 @@
+---
+import '~/styles/global.css';
+import SEO from '~/components/SEO.astro';
+import Header from '~/components/Header.astro';
+import Footer from '~/components/Footer.astro';
+import WhatsAppFloat from '~/components/WhatsAppFloat.astro';
+import type { Locale } from '~/i18n/ui';
+import { hrefLangMap } from '~/i18n/ui';
+
+export interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  canonicalPath: string;
+  alternatePath: string;
+  ogImage?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang={hrefLangMap[props.locale].split('-')[0]} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('yezuri-theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          var theme = stored || (prefersLight ? 'light' : 'dark');
+          if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://wa.me" />
+
+    <SEO {...props} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {props.locale === 'tr' ? 'İçeriğe geç' : 'Skip to content'}
+    </a>
+    <Header locale={props.locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={props.locale} />
+    <WhatsAppFloat locale={props.locale} />
+
+    <script>
+      // reveal-on-scroll
+      const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (motionOk && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+        // counters
+        const counterIo = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              const el = entry.target as HTMLElement;
+              const target = Number(el.dataset.count || 0);
+              const duration = 1400;
+              const start = performance.now();
+              const tick = (now: number) => {
+                const p = Math.min(1, (now - start) / duration);
+                const eased = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.round(eased * target).toString();
+                if (p < 1) requestAnimationFrame(tick);
+              };
+              requestAnimationFrame(tick);
+              counterIo.unobserve(el);
+            }
+          },
+          { threshold: 0.6 },
+        );
+        document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+          el.textContent = '0';
+          counterIo.observe(el);
+        });
+
+        // magnetic buttons
+        document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+          const strength = 0.25;
+          el.addEventListener('pointermove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = ((e as PointerEvent).clientX - rect.left - rect.width / 2) * strength;
+            const y = ((e as PointerEvent).clientY - rect.top - rect.height / 2) * strength;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+          });
+          el.addEventListener('pointerleave', () => {
+            el.style.transform = '';
+          });
+        });
+
+        // tilt cards
+        document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+          el.addEventListener('pointermove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = ((e as PointerEvent).clientX - rect.left) / rect.width - 0.5;
+            const y = ((e as PointerEvent).clientY - rect.top) / rect.height - 0.5;
+            el.style.transform = `perspective(800px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateZ(0)`;
+          });
+          el.addEventListener('pointerleave', () => {
+            el.style.transform = '';
+          });
+        });
+      }
+
+      // header scroll state
+      const header = document.querySelector<HTMLElement>('[data-header]');
+      if (header) {
+        let lastY = 0;
+        const onScroll = () => {
+          const y = window.scrollY;
+          header.classList.toggle('scrolled', y > 40);
+          header.classList.toggle('hidden', y > lastY && y > 180);
+          lastY = y;
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      // theme toggle
+      document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          if (next === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+          } else {
+            document.documentElement.removeAttribute('data-theme');
+          }
+          try {
+            localStorage.setItem('yezuri-theme', next);
+          } catch (e) {}
+        });
+      });
+
+      // mobile nav toggle
+      const navToggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+      const navPanel = document.querySelector<HTMLElement>('[data-nav-panel]');
+      if (navToggle && navPanel) {
+        navToggle.addEventListener('click', () => {
+          const open = navPanel.classList.toggle('open');
+          navToggle.setAttribute('aria-expanded', String(open));
+          document.body.style.overflow = open ? 'hidden' : '';
+        });
+        navPanel.querySelectorAll('a').forEach((a) => {
+          a.addEventListener('click', () => {
+            navPanel.classList.remove('open');
+            navToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+    </script>
+
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: var(--space-4);
+        z-index: 1000;
+        padding: 10px 18px;
+        background: var(--accent);
+        color: white;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+      }
+      .skip-link:focus {
+        top: var(--space-4);
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yezuri.com/sitemap-index.xml

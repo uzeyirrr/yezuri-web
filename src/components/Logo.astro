@@ -1,0 +1,63 @@
+---
+import { localizedPath, type Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { locale, size = 'md' } = Astro.props;
+const href = localizedPath(locale, '/');
+---
+
+<a href={href} class:list={['logo', `logo-${size}`]} aria-label="Yezuri">
+  <span class="logo-text">Yezur<span class="logo-i">i</span></span>
+  <span class="logo-dot" aria-hidden="true"></span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.12em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    text-decoration: none;
+    line-height: 1;
+    transition: filter 0.3s var(--ease-out);
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 14px var(--accent-glow));
+  }
+  .logo:hover .logo-dot {
+    transform: scale(1.4);
+  }
+  .logo-sm {
+    font-size: 1.05rem;
+  }
+  .logo-md {
+    font-size: 1.4rem;
+  }
+  .logo-lg {
+    font-size: 2.1rem;
+  }
+  .logo-text {
+    display: inline-flex;
+    align-items: baseline;
+  }
+  .logo-i {
+    color: var(--accent);
+  }
+  .logo-dot {
+    width: 0.32em;
+    height: 0.32em;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent-glow);
+    align-self: flex-end;
+    margin-bottom: 0.12em;
+    transition: transform 0.3s var(--ease-out);
+  }
+</style>

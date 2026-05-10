@@ -1,0 +1,53 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Hero from '~/components/Hero.astro';
+import TrustBar from '~/components/TrustBar.astro';
+import ServicesGrid from '~/components/ServicesGrid.astro';
+import ProcessTimeline from '~/components/ProcessTimeline.astro';
+import ProjectsGrid from '~/components/ProjectsGrid.astro';
+import ClientLogos from '~/components/ClientLogos.astro';
+import Testimonials from '~/components/Testimonials.astro';
+import FAQ from '~/components/FAQ.astro';
+import ContactCTA from '~/components/ContactCTA.astro';
+import { getDictionary, contactInfo } from '~/i18n/ui';
+
+const locale = 'tr' as const;
+const t = getDictionary(locale);
+
+const localBusinessLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://yezuri.com/#localbusiness',
+  name: 'Yezuri',
+  description: t.meta.homeDescription,
+  image: 'https://yezuri.com/og-default.jpg',
+  url: 'https://yezuri.com/',
+  telephone: contactInfo.phone,
+  email: contactInfo.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'TR',
+    addressLocality: 'Istanbul',
+  },
+  priceRange: '$$$',
+};
+---
+
+<BaseLayout
+  title={t.meta.homeTitle}
+  description={t.meta.homeDescription}
+  locale={locale}
+  canonicalPath="/"
+  alternatePath="/en/"
+  structuredData={localBusinessLd}
+>
+  <Hero locale={locale} />
+  <TrustBar locale={locale} />
+  <ServicesGrid locale={locale} />
+  <ProcessTimeline locale={locale} />
+  <ProjectsGrid locale={locale} />
+  <ClientLogos locale={locale} />
+  <Testimonials locale={locale} />
+  <FAQ locale={locale} />
+  <ContactCTA locale={locale} />
+</BaseLayout>

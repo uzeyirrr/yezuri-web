@@ -1,0 +1,90 @@
+---
+import type { Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const label = locale === 'tr' ? 'Tema değiştir' : 'Toggle theme';
+---
+
+<button class="theme-toggle" type="button" aria-label={label} data-theme-toggle>
+  <span class="theme-track" aria-hidden="true">
+    <span class="theme-thumb">
+      <svg class="theme-icon icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+      <svg class="theme-icon icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </span>
+  </span>
+</button>
+
+<style>
+  .theme-toggle {
+    width: 56px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .theme-track {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--surface-glass);
+    border: 1px solid var(--border);
+    position: relative;
+    transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
+  }
+  .theme-thumb {
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px var(--accent-glow);
+    transition: transform 0.35s var(--ease-out), background 0.3s var(--ease-out);
+  }
+  :root[data-theme='light'] .theme-thumb {
+    transform: translateY(-50%) translateX(24px);
+  }
+  .theme-icon {
+    position: absolute;
+    transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+  .icon-sun {
+    opacity: 0;
+    transform: rotate(-30deg) scale(0.6);
+  }
+  .icon-moon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+  :root[data-theme='light'] .icon-sun {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+  :root[data-theme='light'] .icon-moon {
+    opacity: 0;
+    transform: rotate(30deg) scale(0.6);
+  }
+  .theme-toggle:hover .theme-track {
+    background: var(--surface-glass-hover);
+    border-color: var(--border-strong);
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import ServiceDetail from '~/components/ServiceDetail.astro';
+import { getServices } from '~/data/services';
+import { servicesSlugMap } from '~/i18n/ui';
+
+export const getStaticPaths = (() => {
+  return getServices('tr').map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}) satisfies GetStaticPaths;
+
+const { service } = Astro.props;
+const locale = 'tr' as const;
+const canonicalPath = `/hizmetler/${service.slug}`;
+const enSlug = servicesSlugMap.tr[service.slug];
+const alternatePath = `/en/services/${enSlug}`;
+
+const serviceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.intro,
+  provider: { '@id': 'https://yezuri.com/#organization' },
+  areaServed: { '@type': 'Country', name: 'Turkey' },
+  serviceType: service.title,
+};
+---
+
+<BaseLayout
+  title={service.seoTitle}
+  description={service.seoDescription}
+  locale={locale}
+  canonicalPath={canonicalPath}
+  alternatePath={alternatePath}
+  structuredData={serviceLd}
+>
+  <ServiceDetail locale={locale} service={service} />
+</BaseLayout>

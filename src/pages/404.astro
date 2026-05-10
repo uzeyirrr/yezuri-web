@@ -1,0 +1,59 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { getDictionary, localizedPath } from '~/i18n/ui';
+
+const locale = 'tr' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout
+  title={`404 — ${t.notFound.title} | Yezuri`}
+  description={t.notFound.description}
+  locale={locale}
+  canonicalPath="/404"
+  alternatePath="/en/404"
+  noindex
+>
+  <section class="nf">
+    <div class="container nf-inner">
+      <span class="nf-code">404</span>
+      <h1>{t.notFound.title}</h1>
+      <p>{t.notFound.description}</p>
+      <a class="btn btn-primary" href={localizedPath(locale, '/')}>
+        {t.notFound.cta}
+      </a>
+    </div>
+  </section>
+
+  <style>
+    .nf {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-top: clamp(4rem, 10vw, 6rem);
+    }
+    .nf-inner {
+      max-width: 560px;
+    }
+    .nf-code {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(5rem, 14vw, 8rem);
+      letter-spacing: -0.05em;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: var(--space-4);
+    }
+    .nf h1 {
+      margin-bottom: var(--space-4);
+    }
+    .nf p {
+      margin-bottom: var(--space-6);
+    }
+  </style>
+</BaseLayout>

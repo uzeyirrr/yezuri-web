@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "siteName": "Yezuri",
+    "tagline": "Dijital Dönüşüm Ajansı",
+    "homeTitle": "Yezuri — Dijital Dönüşüm Ajansı",
+    "homeDescription": "Yezuri; süreç otomasyonu, veri analitiği, bulut göçü ve özel yazılım çözümleriyle markaların dijital dönüşümünü hızlandıran bir dijital ajanstır.",
+    "ogAlt": "Yezuri — Dijital Dönüşüm Ajansı"
+  },
+  "nav": {
+    "services": "Hizmetler",
+    "process": "Yaklaşım",
+    "projects": "Projeler",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "cta": "Konuşalım"
+  },
+  "hero": {
+    "eyebrow": "Dijital Dönüşüm Ajansı",
+    "status": "Şu an yeni projeler alıyoruz",
+    "titleLead": "Markanızı",
+    "titleWords": ["strateji ile", "otomasyon ile", "veri ile", "yazılım ile"],
+    "titleTail": "geleceğe taşıyoruz.",
+    "subtitle": "Yezuri; strateji, süreç otomasyonu, veri ve yazılım çözümleriyle işinizi uçtan uca dönüştürür. Hızlı, ölçülebilir ve kalıcı sonuçlar.",
+    "ctaPrimary": "Projeyi konuşalım",
+    "ctaSecondary": "Hizmetlerimizi inceleyin",
+    "cardLiveLabel": "Şu an canlı",
+    "cardLiveProject": "Bulut göçü projesi",
+    "cardMetricValue": "+%240",
+    "cardMetricLabel": "Ortalama verim artışı",
+    "cardRatingLabel": "Müşteri puanı",
+    "trustMicro": "40+ marka Yezuri ile büyüdü"
+  },
+  "trust": {
+    "eyebrow": "Kanıtlanmış Sonuçlar",
+    "items": [
+      { "value": "120", "suffix": "+", "label": "Tamamlanan Proje" },
+      { "value": "45", "suffix": "+", "label": "Kurumsal Müşteri" },
+      { "value": "8", "suffix": " yıl", "label": "Sektör Tecrübesi" },
+      { "value": "98", "suffix": "%", "label": "Memnuniyet Oranı" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Hizmetlerimiz",
+    "title": "Uçtan uca dijital dönüşüm",
+    "subtitle": "Stratejiden uygulamaya, ölçümlemeden optimizasyona kadar işinizin her noktasında yanınızdayız.",
+    "ctaLabel": "Detayları gör",
+    "items": [
+      {
+        "slug": "dijital-strateji",
+        "title": "Dijital Strateji",
+        "summary": "İşinize özel dijital dönüşüm yol haritası ve uzun vadeli vizyon planlaması."
+      },
+      {
+        "slug": "surec-otomasyonu",
+        "title": "Süreç Otomasyonu",
+        "summary": "Tekrarlayan iş akışlarını RPA ve özel entegrasyonlarla otomatikleştirin."
+      },
+      {
+        "slug": "web-ve-mobil-gelistirme",
+        "title": "Web ve Mobil Geliştirme",
+        "summary": "Performans odaklı kurumsal web platformları ve mobil uygulamalar."
+      },
+      {
+        "slug": "veri-analitigi",
+        "title": "Veri Analitiği",
+        "summary": "Karar destek panelleri, BI çözümleri ve gerçek zamanlı raporlama."
+      },
+      {
+        "slug": "bulut-gocu",
+        "title": "Bulut Göçü",
+        "summary": "Mevcut altyapınızı modern, ölçeklenebilir bulut mimarisine taşıyın."
+      },
+      {
+        "slug": "e-ticaret",
+        "title": "E-Ticaret Çözümleri",
+        "summary": "Yüksek dönüşüm odaklı e-ticaret mağazaları, entegrasyon ve büyüme."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Yaklaşımımız",
+    "title": "Net adımlar, ölçülebilir sonuçlar",
+    "subtitle": "Her projeyi disiplinli bir süreçle yönetiyoruz. Şeffaflık, hız ve kalite garanti.",
+    "steps": [
+      {
+        "step": "01",
+        "title": "Keşif",
+        "detail": "Mevcut durumunuzu, hedeflerinizi ve fırsatları derinlemesine analiz ediyoruz."
+      },
+      {
+        "step": "02",
+        "title": "Strateji",
+        "detail": "Önceliklendirilmiş, ölçülebilir hedeflerle yol haritanızı çıkarıyoruz."
+      },
+      {
+        "step": "03",
+        "title": "Uygulama",
+        "detail": "Agile metodolojiyle çevik teslimatlar; hızlı geri bildirim döngüleri."
+      },
+      {
+        "step": "04",
+        "title": "Ölçüm ve Optimizasyon",
+        "detail": "KPI'lar üzerinden sürekli iyileştirme ve büyüme."
+      }
+    ]
+  },
+  "projects": {
+    "eyebrow": "Projelerimiz",
+    "title": "Birlikte ürettiklerimiz",
+    "subtitle": "Farklı sektörlerden seçilmiş vaka çalışmalarımız. Yakında daha fazlası eklenecek.",
+    "items": [
+      { "title": "Lojistik SaaS Platformu", "category": "Yazılım Geliştirme", "metric": "+%240 verim artışı" },
+      { "title": "Perakende Veri Paneli", "category": "Veri Analitiği", "metric": "12 lokasyon canlı" },
+      { "title": "Banka Süreç Otomasyonu", "category": "RPA / Otomasyon", "metric": "320 saat / ay kazanım" },
+      { "title": "E-Ticaret Re-Platform", "category": "E-Ticaret", "metric": "+%180 dönüşüm" },
+      { "title": "Bulut Migration Projesi", "category": "Cloud / DevOps", "metric": "%65 maliyet düşüşü" },
+      { "title": "Mobil Saha Uygulaması", "category": "Mobil Geliştirme", "metric": "8.000+ aktif kullanıcı" }
+    ]
+  },
+  "clients": {
+    "eyebrow": "Birlikte Çalıştıklarımız",
+    "title": "Markaların güveni"
+  },
+  "testimonials": {
+    "eyebrow": "Müşteri Yorumları",
+    "title": "Bizimle çalışanlar ne diyor?",
+    "items": [
+      {
+        "quote": "Yezuri ekibi, dönüşüm sürecimizi ezberden çıkarıp ölçülebilir bir yola koydu. Operasyonel verimlilik 2 katına çıktı.",
+        "author": "A. Yılmaz",
+        "role": "COO, Lojistik Sektörü"
+      },
+      {
+        "quote": "Hız ve kalitenin bir arada yürüyebileceğini Yezuri ile gördük. Hayata geçirdikleri analitik panel kararlarımızı kökten değiştirdi.",
+        "author": "M. Demir",
+        "role": "Direktör, Perakende"
+      },
+      {
+        "quote": "Sadece kod yazan bir ajans değil, gerçek bir stratejik ortak. Önerileri her zaman bizim için kazanç oldu.",
+        "author": "E. Kaya",
+        "role": "CTO, Fintech"
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Sıkça Sorulanlar",
+    "title": "Aklınızdaki sorular",
+    "items": [
+      {
+        "q": "Bir proje ne kadar sürer?",
+        "a": "Kapsamın büyüklüğüne göre değişir. MVP projeleri 4-8 hafta arasında teslim edilebilirken, kurumsal dönüşüm projeleri 3-12 ay sürebilir. İlk görüşmede net bir takvim sunuyoruz."
+      },
+      {
+        "q": "Sadece danışmanlık alabilir miyim?",
+        "a": "Evet. Dijital strateji ve süreç analizi gibi danışmanlık paketlerimiz var. Uygulamaya dahil olmayı tercih etmeseniz bile yol haritanızı birlikte çıkarabiliriz."
+      },
+      {
+        "q": "Hangi sektörlerde tecrübeniz var?",
+        "a": "Finans, perakende, lojistik, üretim, sağlık ve e-ticaret başta olmak üzere geniş bir yelpazede deneyimimiz var."
+      },
+      {
+        "q": "Mevcut yazılımımızla entegre olur mu?",
+        "a": "Evet. ERP, CRM, e-ticaret ve özel sistemlerle güvenli entegrasyon sağlıyoruz. API tasarımı ve veri senkronizasyonu uzmanlık alanlarımız arasında."
+      },
+      {
+        "q": "Proje sonrası destek veriyor musunuz?",
+        "a": "Tüm projelerimiz için SLA destekli bakım ve geliştirme paketleri sunuyoruz. Sizi yarı yolda bırakmıyoruz."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "İletişim",
+    "title": "Bir kahve ısmarlayın, dijital geleceğinizi konuşalım",
+    "subtitle": "Aşağıdaki kanallardan bize ulaşın. 24 saat içinde dönüş yapıyoruz.",
+    "whatsapp": "WhatsApp'tan yazın",
+    "email": "E-posta gönderin",
+    "phone": "Hemen arayın"
+  },
+  "footer": {
+    "tagline": "Markaların dijital geleceğini tasarlıyor, uçtan uca uyguluyoruz.",
+    "servicesTitle": "Hizmetler",
+    "companyTitle": "Şirket",
+    "contactTitle": "İletişim",
+    "rights": "Tüm hakları saklıdır.",
+    "kvkk": "KVKK Aydınlatma Metni",
+    "privacy": "Gizlilik Politikası"
+  },
+  "service": {
+    "what": "Nedir?",
+    "offerings": "Ne sunuyoruz?",
+    "process": "Süreç",
+    "kpis": "Sonuçlar / KPI'lar",
+    "otherServices": "Diğer Hizmetler",
+    "ctaTitle": "Bu hizmetle ilgili konuşalım",
+    "ctaSubtitle": "Birkaç dakikalık görüşme ile başlayalım. Size en uygun yaklaşımı birlikte planlayalım."
+  },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "description": "Aradığınız sayfa taşınmış ya da silinmiş olabilir.",
+    "cta": "Ana sayfaya dön"
+  }
+}

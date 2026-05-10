@@ -1,0 +1,652 @@
+---
+import { getDictionary, whatsappLink, servicePath, type Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+const wa = whatsappLink(
+  locale === 'tr'
+    ? 'Merhaba, Yezuri ile bir projeyi konuşmak istiyorum.'
+    : 'Hi, I would like to discuss a project with Yezuri.',
+);
+
+const marqueeWords =
+  locale === 'tr'
+    ? ['Dijital Strateji', 'Süreç Otomasyonu', 'Veri Analitiği', 'Bulut Göçü', 'E-Ticaret', 'Yazılım Geliştirme']
+    : ['Digital Strategy', 'Process Automation', 'Data Analytics', 'Cloud Migration', 'E-Commerce', 'Software Development'];
+
+const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+  </div>
+
+  <div class="container hero-inner">
+    <span class="status-badge reveal">
+      <span class="status-dot" aria-hidden="true"></span>
+      {t.hero.status}
+    </span>
+
+    <h1 id="hero-title" class="hero-title reveal">
+      <span class="hero-line">{t.hero.titleLead}</span>
+      <span class="word-rotator" aria-hidden="true">
+        {t.hero.titleWords.map((w) => (
+          <span class="word-sizer">{w}</span>
+        ))}
+        <span class="word-cube">
+          {t.hero.titleWords.map((w, i) => (
+            <span class="word-face" style={`--i: ${i}`}>{w}</span>
+          ))}
+        </span>
+      </span>
+      <span class="visually-hidden">{t.hero.titleWords.join(', ')}</span>
+      <span class="hero-line hero-line-tail">{t.hero.titleTail}</span>
+    </h1>
+
+    <p class="hero-sub reveal">{t.hero.subtitle}</p>
+
+    <div class="hero-ctas reveal">
+      <a class="btn btn-primary hero-cta-primary" href={wa} target="_blank" rel="noopener" data-magnetic>
+        <span class="hero-cta-spark" aria-hidden="true"></span>
+        {t.hero.ctaPrimary}
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn-ghost" href="#services">
+        {t.hero.ctaSecondary}
+      </a>
+    </div>
+
+    <p class="hero-micro reveal">
+      <span class="avatar-stack" aria-hidden="true">
+        <span class="avatar avatar-1">N</span>
+        <span class="avatar avatar-2">K</span>
+        <span class="avatar avatar-3">A</span>
+        <span class="avatar avatar-4">L</span>
+      </span>
+      {t.hero.trustMicro}
+    </p>
+
+    <div class="hero-cards" aria-hidden="true">
+      <article class="float-card float-card-live" data-float-card>
+        <header>
+          <span class="live-pulse"></span>
+          <span class="float-label">{t.hero.cardLiveLabel}</span>
+        </header>
+        <p>{t.hero.cardLiveProject}</p>
+        <a class="float-link" href={servicePath(locale, liveServiceSlug)}>
+          {t.services.ctaLabel}
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </article>
+
+      <article class="float-card float-card-metric" data-float-card>
+        <span class="metric-value">{t.hero.cardMetricValue}</span>
+        <span class="metric-label">{t.hero.cardMetricLabel}</span>
+        <svg class="metric-chart" viewBox="0 0 80 36" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="metric-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 28 L12 24 L24 26 L36 18 L48 14 L60 8 L72 4 L80 2 L80 36 L0 36 Z" fill="url(#metric-grad)"/>
+          <path d="M0 28 L12 24 L24 26 L36 18 L48 14 L60 8 L72 4 L80 2" fill="none" stroke="var(--accent)" stroke-width="1.5"/>
+        </svg>
+      </article>
+
+      <article class="float-card float-card-rating" data-float-card>
+        <div class="stars" aria-hidden="true">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <span class="rating-value">4.9 / 5</span>
+        <span class="rating-label">{t.hero.cardRatingLabel}</span>
+      </article>
+    </div>
+  </div>
+
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="hero-marquee-track">
+      {[...marqueeWords, ...marqueeWords].map((w) => (
+        <span class="hero-marquee-item">
+          {w}
+          <span class="hero-marquee-dot">•</span>
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: clamp(5rem, 14vw, 9rem);
+    padding-bottom: clamp(8rem, 14vw, 11rem);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 70vmax;
+    height: 70vmax;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    will-change: transform;
+  }
+  .hero-orb-1 {
+    top: -30%;
+    right: -20%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 60%);
+    animation: orb-1 18s var(--ease-in-out) infinite;
+  }
+  .hero-orb-2 {
+    bottom: -40%;
+    left: -25%;
+    background: radial-gradient(circle, var(--accent-deep) 0%, transparent 60%);
+    animation: orb-2 22s var(--ease-in-out) infinite;
+    opacity: 0.4;
+  }
+  :root[data-theme='light'] .hero-orb {
+    opacity: 0.28;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: var(--surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2bd96b;
+    box-shadow: 0 0 0 0 rgba(43, 217, 107, 0.7);
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+  @keyframes status-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(43, 217, 107, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(43, 217, 107, 0);
+    }
+  }
+
+  .hero-title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    max-width: 17ch;
+  }
+  .hero-line {
+    display: block;
+  }
+  .hero-line-tail {
+    display: block;
+    color: var(--text-mute);
+  }
+
+  .word-rotator {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    height: 1.06em;
+    vertical-align: top;
+    position: relative;
+    line-height: 1.06;
+    perspective: 1200px;
+    perspective-origin: center;
+  }
+  .word-sizer {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    visibility: hidden;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .word-cube {
+    grid-area: 1 / 1;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: word-cube calc(2.4s * 4) cubic-bezier(0.7, 0, 0.3, 1) infinite;
+    will-change: transform;
+  }
+  .word-face {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: rotateX(calc(var(--i) * 90deg)) translateZ(0.53em);
+    color: var(--accent);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hot) 60%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  @keyframes word-cube {
+    0%,
+    22% {
+      transform: rotateX(0);
+    }
+    25%,
+    47% {
+      transform: rotateX(-90deg);
+    }
+    50%,
+    72% {
+      transform: rotateX(-180deg);
+    }
+    75%,
+    97% {
+      transform: rotateX(-270deg);
+    }
+    100% {
+      transform: rotateX(-360deg);
+    }
+  }
+
+  .hero-sub {
+    margin-top: var(--space-5);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.55;
+    max-width: 56ch;
+    color: var(--text-mute);
+  }
+
+  .hero-ctas {
+    margin-top: var(--space-6);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .hero-cta-primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-cta-spark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.5) 50%, transparent 70%);
+    transform: translateX(-100%);
+    z-index: -1;
+    animation: spark 3.5s ease-in-out infinite;
+  }
+  @keyframes spark {
+    0%,
+    70%,
+    100% {
+      transform: translateX(-100%);
+    }
+    85% {
+      transform: translateX(100%);
+    }
+  }
+
+  .hero-micro {
+    margin-top: var(--space-5);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.88rem;
+    color: var(--text-mute);
+  }
+  .avatar-stack {
+    display: inline-flex;
+  }
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--bg-base);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.72rem;
+    color: white;
+    margin-left: -10px;
+  }
+  .avatar:first-child {
+    margin-left: 0;
+  }
+  .avatar-1 { background: linear-gradient(135deg, #e11d2e, #7f0e1a); }
+  .avatar-2 { background: linear-gradient(135deg, #ff3b4d, #e11d2e); }
+  .avatar-3 { background: linear-gradient(135deg, #7f0e1a, #25252f); }
+  .avatar-4 { background: linear-gradient(135deg, #ff3b4d, #ffb3bb); }
+
+  .hero-cards {
+    position: absolute;
+    right: clamp(1rem, 3vw, 2.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: clamp(220px, 22vw, 280px);
+    pointer-events: none;
+  }
+  .float-card {
+    pointer-events: auto;
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-lg);
+    background: var(--surface-glass);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-md);
+    transform: rotate(var(--rot, 0deg));
+    animation: float-card 8s var(--ease-in-out) infinite;
+    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+  .float-card-live {
+    --rot: -2.5deg;
+    align-self: flex-end;
+    width: 90%;
+  }
+  .float-card-metric {
+    --rot: 1.8deg;
+    align-self: flex-start;
+    width: 100%;
+    animation-delay: -3s;
+  }
+  .float-card-rating {
+    --rot: -1.2deg;
+    align-self: flex-end;
+    width: 85%;
+    animation-delay: -5s;
+  }
+  @keyframes float-card {
+    0%,
+    100% {
+      transform: rotate(var(--rot, 0deg)) translateY(0);
+    }
+    50% {
+      transform: rotate(calc(var(--rot, 0deg) + 1deg)) translateY(-8px);
+    }
+  }
+  .float-card:hover {
+    box-shadow: var(--shadow-lg), 0 0 40px var(--accent-fade);
+  }
+
+  .float-card-live header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .live-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff3b4d;
+    box-shadow: 0 0 12px #ff3b4d;
+    animation: status-pulse 1.5s ease-in-out infinite;
+  }
+  .float-label {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-mute);
+  }
+  .float-card-live p {
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .float-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .metric-value {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .metric-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-mute);
+    margin-top: 6px;
+    line-height: 1.3;
+  }
+  .metric-chart {
+    width: 100%;
+    height: 32px;
+    margin-top: 10px;
+    display: block;
+  }
+
+  .float-card-rating {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stars {
+    color: var(--accent);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+  }
+  .rating-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+  .rating-label {
+    font-size: 0.78rem;
+    color: var(--text-mute);
+  }
+
+  .hero-marquee {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--surface-glass);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .hero-marquee-track {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding-block: 16px;
+    animation: marquee 32s linear infinite;
+    width: max-content;
+  }
+  .hero-marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-5);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    color: var(--text-mute);
+    letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .hero-marquee-dot {
+    color: var(--accent);
+    font-size: 1.4rem;
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @keyframes orb-1 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-40px, 30px) scale(1.08);
+    }
+  }
+  @keyframes orb-2 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(40px, -30px) scale(1.1);
+    }
+  }
+
+  @media (max-width: 1080px) {
+    .hero-cards {
+      position: static;
+      transform: none;
+      width: 100%;
+      max-width: 540px;
+      flex-direction: row;
+      align-items: stretch;
+      margin-top: var(--space-7);
+      gap: var(--space-3);
+    }
+    .float-card,
+    .float-card-live,
+    .float-card-metric,
+    .float-card-rating {
+      width: 100%;
+      align-self: stretch;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero-cards {
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-orb,
+    .float-card,
+    .hero-marquee-track,
+    .hero-cta-spark,
+    .word-cube,
+    .status-dot,
+    .live-pulse {
+      animation: none !important;
+    }
+    .word-cube {
+      transform: none;
+    }
+    .word-face {
+      transform: none;
+      position: static;
+      display: none;
+    }
+    .word-face:first-child {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  // tilt on float cards
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-float-card]').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e as PointerEvent).clientX - rect.left) / rect.width - 0.5;
+        const y = ((e as PointerEvent).clientY - rect.top) / rect.height - 0.5;
+        const rot = getComputedStyle(card).getPropertyValue('--rot') || '0deg';
+        card.style.transform = `perspective(600px) rotate(${rot}) rotateX(${-y * 10}deg) rotateY(${x * 10}deg) translateY(-4px)`;
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+</script>

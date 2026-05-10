@@ -1,0 +1,108 @@
+---
+import type { Locale } from '~/i18n/ui';
+import { hrefLangMap, alternateLocale, contactInfo } from '~/i18n/ui';
+
+export interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  /** Path relative to root, starting with /, no trailing slash. e.g. "/hizmetler/dijital-strateji" */
+  canonicalPath: string;
+  /** Path of the alternate-locale version (already locale-prefixed when needed) */
+  alternatePath: string;
+  ogImage?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  canonicalPath,
+  alternatePath,
+  ogImage = '/og-default.jpg',
+  structuredData,
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://yezuri.com';
+const canonicalUrl = `${site}${canonicalPath}`;
+const alternateUrl = `${site}${alternatePath}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`;
+
+const alt = alternateLocale(locale);
+
+const defaultLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${site}/#organization`,
+      name: 'Yezuri',
+      url: site,
+      logo: `${site}/og-default.jpg`,
+      email: contactInfo.email,
+      telephone: contactInfo.phone,
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'TR',
+        addressLocality: 'Istanbul',
+      },
+      sameAs: [
+        contactInfo.social.linkedin,
+        contactInfo.social.instagram,
+        contactInfo.social.twitter,
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site}/#website`,
+      url: site,
+      name: 'Yezuri',
+      inLanguage: hrefLangMap[locale],
+      publisher: { '@id': `${site}/#organization` },
+    },
+  ],
+};
+
+const ldArray = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="generator" content={Astro.generator} />
+
+<link rel="canonical" href={canonicalUrl} />
+
+<link rel="alternate" hreflang={hrefLangMap[locale]} href={canonicalUrl} />
+<link rel="alternate" hreflang={hrefLangMap[alt]} href={alternateUrl} />
+<link rel="alternate" hreflang="x-default" href={`${site}${canonicalPath.replace(/^\/en/, '') || '/'}`} />
+
+{noindex && <meta name="robots" content="noindex,nofollow" />}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Yezuri" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:locale" content={hrefLangMap[locale].replace('-', '_')} />
+<meta property="og:locale:alternate" content={hrefLangMap[alt].replace('-', '_')} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(defaultLd)} />
+{ldArray.map((ld) => (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+))}

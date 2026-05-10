@@ -1,0 +1,174 @@
+---
+import {
+  getDictionary,
+  localizedPath,
+  servicePath,
+  contactInfo,
+  type Locale,
+} from '~/i18n/ui';
+import Logo from './Logo.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+export interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+const year = new Date().getFullYear();
+const home = localizedPath(locale, '/');
+const alternatePath = locale === 'tr' ? '/en/' : '/';
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <Logo locale={locale} size="md" />
+      <p>{t.footer.tagline}</p>
+      <LanguageSwitcher locale={locale} alternatePath={alternatePath} />
+    </div>
+
+    <div class="footer-col">
+      <h4>{t.footer.servicesTitle}</h4>
+      <ul>
+        {t.services.items.map((s) => (
+          <li><a href={servicePath(locale, s.slug)}>{s.title}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>{t.footer.companyTitle}</h4>
+      <ul>
+        <li><a href={`${home}#process`}>{t.nav.process}</a></li>
+        <li><a href={`${home}#projects`}>{t.nav.projects}</a></li>
+        <li><a href={`${home}#faq`}>{locale === 'tr' ? 'SSS' : 'FAQ'}</a></li>
+        <li><a href={`${home}#contact`}>{t.nav.contact}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>{t.footer.contactTitle}</h4>
+      <ul>
+        <li><a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a></li>
+        <li><a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>{contactInfo.phone}</a></li>
+        <li>{contactInfo.address}</li>
+      </ul>
+      <div class="footer-social">
+        <a href={contactInfo.social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55V14.8c0-1.35-.02-3.08-1.88-3.08-1.88 0-2.17 1.47-2.17 2.98v5.75H9.3V9h3.4v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43c-1.14 0-2.06-.92-2.06-2.06s.92-2.06 2.06-2.06 2.06.92 2.06 2.06-.92 2.06-2.06 2.06zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <a href={contactInfo.social.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23a3.7 3.7 0 01-.9 1.38c-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38a3.7 3.7 0 011.38-.9c.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 00-2.13 1.38A5.85 5.85 0 00.63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.32.78.74 1.45 1.38 2.13a5.85 5.85 0 002.13 1.38c.76.3 1.64.5 2.91.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 002.13-1.38 5.85 5.85 0 001.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 00-1.38-2.13A5.85 5.85 0 0019.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1018.16 12 6.16 6.16 0 0012 5.84zM12 16a4 4 0 114-4 4 4 0 01-4 4zm6.41-11.85a1.44 1.44 0 11-1.44 1.44 1.44 1.44 0 011.44-1.44z"/></svg>
+        </a>
+        <a href={contactInfo.social.twitter} target="_blank" rel="noopener" aria-label="Twitter / X">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>&copy; {year} Yezuri. {t.footer.rights}</p>
+    <ul>
+      <li><a href="#">{t.footer.kvkk}</a></li>
+      <li><a href="#">{t.footer.privacy}</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent, rgba(225, 29, 46, 0.04));
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+    gap: var(--space-7);
+    padding-bottom: var(--space-7);
+  }
+  .footer-brand p {
+    margin: var(--space-4) 0;
+    max-width: 320px;
+    font-size: 0.95rem;
+  }
+  .footer-col h4 {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: var(--space-4);
+    color: var(--text);
+  }
+  .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-col a,
+  .footer-col li {
+    font-size: 0.92rem;
+    color: var(--text-mute);
+    transition: color 0.2s var(--ease-out);
+  }
+  .footer-col a:hover {
+    color: var(--accent);
+  }
+  .footer-social {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .footer-social a {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    color: var(--text-mute);
+    transition: color 0.3s var(--ease-out), background 0.3s var(--ease-out),
+      border-color 0.3s var(--ease-out);
+  }
+  .footer-social a:hover {
+    color: white;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    padding: var(--space-5) clamp(1rem, 4vw, 2rem);
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--text-dim);
+  }
+  .footer-bottom ul {
+    display: flex;
+    gap: var(--space-5);
+  }
+  .footer-bottom a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 880px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 540px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
