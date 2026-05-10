@@ -69,6 +69,7 @@ export const servicesSlugMap: Record<Locale, Record<string, string>> = {
     'veri-analitigi': 'data-analytics',
     'bulut-gocu': 'cloud-migration',
     'e-ticaret': 'e-commerce',
+    'is-gelistirme': 'business-development',
   },
   en: {
     'digital-strategy': 'dijital-strateji',
@@ -77,5 +78,6 @@ export const servicesSlugMap: Record<Locale, Record<string, string>> = {
     'data-analytics': 'veri-analitigi',
     'cloud-migration': 'bulut-gocu',
     'e-commerce': 'e-ticaret',
+    'business-development': 'is-gelistirme',
   },
 };

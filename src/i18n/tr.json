@@ -46,9 +46,9 @@
     "ctaLabel": "Detayları gör",
     "items": [
       {
-        "slug": "dijital-strateji",
-        "title": "Dijital Strateji",
-        "summary": "İşinize özel dijital dönüşüm yol haritası ve uzun vadeli vizyon planlaması."
+        "slug": "is-gelistirme",
+        "title": "İş Geliştirme",
+        "summary": "Yeni pazarlar, gelir kanalları ve stratejik ortaklıklarla büyüme."
       },
       {
         "slug": "surec-otomasyonu",
@@ -74,6 +74,11 @@
         "slug": "e-ticaret",
         "title": "E-Ticaret Çözümleri",
         "summary": "Yüksek dönüşüm odaklı e-ticaret mağazaları, entegrasyon ve büyüme."
+      },
+      {
+        "slug": "dijital-strateji",
+        "title": "Dijital Strateji",
+        "summary": "İşinize özel dijital dönüşüm yol haritası ve uzun vadeli vizyon planlaması."
       }
     ]
   },

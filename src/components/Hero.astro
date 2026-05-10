@@ -132,7 +132,8 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     justify-content: center;
     padding-top: clamp(5rem, 14vw, 9rem);
     padding-bottom: clamp(8rem, 14vw, 11rem);
-    overflow: hidden;
+    overflow: visible;
+    clip-path: inset(-30vh 0 0 0);
     isolation: isolate;
   }
 
@@ -140,7 +141,6 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     position: absolute;
     inset: 0;
     z-index: -1;
-    overflow: hidden;
     pointer-events: none;
   }
 

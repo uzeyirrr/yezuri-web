@@ -46,9 +46,9 @@
     "ctaLabel": "View details",
     "items": [
       {
-        "slug": "digital-strategy",
-        "title": "Digital Strategy",
-        "summary": "Tailored digital transformation roadmaps and long-term vision planning."
+        "slug": "business-development",
+        "title": "Business Development",
+        "summary": "Grow through new markets, revenue channels and strategic partnerships."
       },
       {
         "slug": "process-automation",
@@ -74,6 +74,11 @@
         "slug": "e-commerce",
         "title": "E-Commerce Solutions",
         "summary": "High-converting e-commerce stores, integrations and growth."
+      },
+      {
+        "slug": "digital-strategy",
+        "title": "Digital Strategy",
+        "summary": "Tailored digital transformation roadmaps and long-term vision planning."
       }
     ]
   },

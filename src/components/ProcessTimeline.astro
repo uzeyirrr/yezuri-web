@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { getDictionary, type Locale } from '~/i18n/ui';
 
 export interface Props {
@@ -7,109 +8,534 @@ export interface Props {
 
 const { locale } = Astro.props;
 const t = getDictionary(locale);
+
+const stepIcons = ['lucide:search', 'lucide:map', 'lucide:rocket', 'lucide:trending-up'];
+const stepCount = t.process.steps.length;
 ---
 
-<section id="process" class="process" aria-labelledby="process-title">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">{t.process.eyebrow}</span>
-      <h2 id="process-title">{t.process.title}</h2>
-      <p>{t.process.subtitle}</p>
-    </div>
+<section id="process" class="process" aria-labelledby="process-title" style={`--step-count: ${stepCount}`}>
+  <div class="process-bg" aria-hidden="true">
+    <span class="process-blob process-blob-1"></span>
+    <span class="process-blob process-blob-2"></span>
+    <span class="process-grid"></span>
+  </div>
 
-    <ol class="process-line">
-      {t.process.steps.map((step, i) => (
-        <li class="process-step reveal" style={`transition-delay: ${i * 100}ms`}>
-          <div class="process-num">{step.step}</div>
-          <h3>{step.title}</h3>
-          <p>{step.detail}</p>
-        </li>
-      ))}
-    </ol>
+  <div class="process-scroller" data-process-scroller>
+    <div class="process-sticky">
+      <div class="container process-header">
+        <div class="section-head reveal">
+          <span class="eyebrow">{t.process.eyebrow}</span>
+          <h2 id="process-title">{t.process.title}</h2>
+          <p>{t.process.subtitle}</p>
+        </div>
+
+        <div class="process-progress" aria-hidden="true">
+          <div class="process-progress-rail">
+            <span class="process-progress-fill" data-process-fill></span>
+            <ol class="process-progress-dots">
+              {t.process.steps.map((s, i) => (
+                <li data-dot={i}>
+                  <span class="dot-num">{s.step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-stage">
+        <ol class="process-track" data-process-track>
+          {t.process.steps.map((step, i) => (
+            <li class="process-card" data-card={i}>
+              <span class="process-card-border" aria-hidden="true"></span>
+              <div class="process-card-inner">
+                <span class="process-card-watermark" aria-hidden="true">{step.step}</span>
+
+                <div class="process-card-head">
+                  <span class="process-card-icon" aria-hidden="true">
+                    <Icon name={stepIcons[i] ?? 'lucide:sparkles'} width="26" height="26" />
+                  </span>
+                  <div class="process-card-meta">
+                    <span class="process-card-tag">
+                      {locale === 'tr' ? 'Aşama' : 'Stage'} {step.step} / {String(stepCount).padStart(2, '0')}
+                    </span>
+                    <span class="process-card-route">
+                      {i + 1 < stepCount ? (
+                        <>
+                          <Icon name="lucide:arrow-right" width="12" height="12" />
+                          <span>{t.process.steps[i + 1].title}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Icon name="lucide:check-circle-2" width="12" height="12" />
+                          <span>{locale === 'tr' ? 'Tamamlandı' : 'Complete'}</span>
+                        </>
+                      )}
+                    </span>
+                  </div>
+                </div>
+
+                <h3>{step.title}</h3>
+                <p>{step.detail}</p>
+
+                <div class="process-card-foot">
+                  <span class="process-card-step">{step.step}</span>
+                  <span class="process-card-divider" aria-hidden="true"></span>
+                  <span class="process-card-hint">
+                    {locale === 'tr' ? 'Devam etmek için kaydırın' : 'Scroll to continue'}
+                    <Icon name="lucide:mouse" width="14" height="14" />
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .process-line {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-5);
-    counter-reset: process;
+  .process {
     position: relative;
+    --step-count: 4;
+    /* Total scroll length: 1 viewport per step (minus 1) + 1 viewport for the intro hold */
+    height: calc(100vh * var(--step-count));
   }
-  .process-line::before {
-    content: '';
+
+  .process-bg {
     position: absolute;
-    top: 36px;
-    left: 5%;
-    right: 5%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-fade), var(--accent-fade), transparent);
+    inset: 0;
     z-index: 0;
+    pointer-events: none;
   }
-  .process-step {
+  .process-blob {
+    position: absolute;
+    width: 55vmax;
+    height: 55vmax;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.22;
+  }
+  .process-blob-1 {
+    top: -20%;
+    left: -15%;
+    background: radial-gradient(circle, var(--accent-deep), transparent 60%);
+    animation: process-float-1 22s var(--ease-in-out) infinite;
+  }
+  .process-blob-2 {
+    bottom: -25%;
+    right: -10%;
+    background: radial-gradient(circle, var(--accent), transparent 60%);
+    animation: process-float-2 26s var(--ease-in-out) infinite;
+    opacity: 0.16;
+  }
+  .process-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 50%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 50%, black 0%, transparent 75%);
+    opacity: 0.5;
+  }
+  @keyframes process-float-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(60px, 40px) scale(1.08); }
+  }
+  @keyframes process-float-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-50px, -40px) scale(1.1); }
+  }
+  :root[data-theme='light'] .process-blob {
+    opacity: 0.1;
+  }
+
+  .process-scroller {
     position: relative;
-    padding-top: var(--space-3);
+    height: 100%;
     z-index: 1;
   }
-  .process-num {
-    width: 72px;
-    height: 72px;
+  .process-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1.5rem, 4vh, 3rem);
+    padding-block: clamp(2rem, 6vh, 4rem);
+  }
+
+  .process-header {
+    flex-shrink: 0;
+  }
+  .process-header .section-head {
+    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  /* Progress rail */
+  .process-progress {
+    max-width: 720px;
+  }
+  .process-progress-rail {
+    position: relative;
+    height: 2px;
+    background: var(--border);
     border-radius: var(--radius-pill);
-    background: var(--bg-elev-2);
+  }
+  .process-progress-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-hot), var(--accent));
+    border-radius: inherit;
+    box-shadow: 0 0 12px var(--accent-glow);
+    will-change: width;
+  }
+  .process-progress-dots {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .process-progress-dots li {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-base);
     border: 1px solid var(--border-strong);
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-left: -18px;
+    transition: border-color 0.4s var(--ease-out), background 0.4s var(--ease-out),
+      box-shadow 0.4s var(--ease-out);
+  }
+  .process-progress-dots li:first-child {
+    margin-left: 0;
+  }
+  .process-progress-dots li:last-child {
+    margin-right: -18px;
+  }
+  .dot-num {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.4rem;
-    color: var(--accent);
-    margin-bottom: var(--space-4);
-    box-shadow: inset 0 0 0 4px var(--bg-base), 0 8px 24px rgba(0, 0, 0, 0.4);
+    font-size: 0.78rem;
+    color: var(--text-mute);
+    transition: color 0.4s var(--ease-out);
+  }
+  .process-progress-dots li.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(225, 29, 46, 0.18), 0 8px 22px var(--accent-glow);
+  }
+  .process-progress-dots li.is-active .dot-num {
+    color: white;
+  }
+  .process-progress-dots li.is-passed {
+    background: var(--accent-deep);
+    border-color: var(--accent-deep);
+  }
+  .process-progress-dots li.is-passed .dot-num {
+    color: white;
+  }
+
+  /* Horizontal track */
+  .process-stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .process-track {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.05s linear;
+  }
+
+  /* Card */
+  .process-card {
+    flex: 0 0 min(720px, 80vw);
     position: relative;
+    border-radius: var(--radius-xl);
+    isolation: isolate;
+    opacity: 0.35;
+    transform: scale(0.94);
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
   }
-  .process-num::after {
-    content: '';
+  .process-card.is-current {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .process-card-border {
     position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--accent), transparent 50%, var(--accent));
-    z-index: -1;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--card-angle, 0deg),
+      transparent 0deg,
+      var(--accent) 70deg,
+      var(--accent-hot) 130deg,
+      transparent 220deg,
+      transparent 360deg
+    );
     opacity: 0;
-    transition: opacity 0.3s var(--ease-out);
-    animation: rotate-glow 4s linear infinite;
+    z-index: 0;
+    animation: card-rotate 10s linear infinite;
+    transition: opacity 0.5s var(--ease-out);
   }
-  .process-step:hover .process-num::after {
-    opacity: 0.7;
+  @property --card-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
   }
-  .process-step h3 {
-    margin-bottom: var(--space-3);
+  @keyframes card-rotate {
+    to { --card-angle: 360deg; }
   }
-  .process-step p {
-    font-size: 0.93rem;
+  .process-card.is-current .process-card-border {
+    opacity: 0.9;
   }
-  @keyframes rotate-glow {
-    to {
-      transform: rotate(360deg);
-    }
+
+  .process-card-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    height: 100%;
+    padding: clamp(2rem, 4vw, 3rem);
+    border-radius: inherit;
+    background:
+      radial-gradient(120% 60% at 100% 0%, rgba(225, 29, 46, 0.1), transparent 60%),
+      linear-gradient(160deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border: 1px solid var(--border);
+    overflow: hidden;
   }
+
+  .process-card-watermark {
+    position: absolute;
+    right: -0.04em;
+    bottom: -0.32em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(8rem, 22vw, 18rem);
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(225, 29, 46, 0.16);
+    text-stroke: 1px rgba(225, 29, 46, 0.16);
+    pointer-events: none;
+  }
+
+  .process-card-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .process-card-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(140deg, var(--accent-hot), var(--accent-deep));
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 28px rgba(225, 29, 46, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .process-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .process-card-tag {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+  }
+  .process-card-route {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.86rem;
+    color: var(--accent);
+  }
+
+  .process-card h3 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(180deg, var(--text) 0%, var(--text) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .process-card.is-current h3 {
+    background: linear-gradient(180deg, var(--text) 0%, var(--accent-hot) 110%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .process-card p {
+    font-size: clamp(1rem, 1.4vw, 1.12rem);
+    line-height: 1.7;
+    color: var(--text-mute);
+    max-width: 50ch;
+  }
+
+  .process-card-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-top: var(--space-5);
+    border-top: 1px dashed var(--border);
+  }
+  .process-card-step {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.04em;
+    background: linear-gradient(180deg, var(--accent-hot), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .process-card-divider {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent-fade), transparent);
+  }
+  .process-card-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: var(--text-mute);
+  }
+
+  /* Mobile fallback: regular vertical stack */
   @media (max-width: 880px) {
-    .process-line {
-      grid-template-columns: repeat(2, 1fr);
+    .process {
+      height: auto;
     }
-    .process-line::before {
+    .process-scroller {
+      height: auto;
+    }
+    .process-sticky {
+      position: relative;
+      top: auto;
+      height: auto;
+      overflow: visible;
+      padding-block: clamp(2rem, 6vw, 3rem);
+      gap: var(--space-6);
+    }
+    .process-progress {
       display: none;
     }
-  }
-  @media (max-width: 540px) {
-    .process-line {
-      grid-template-columns: 1fr;
+    .process-stage {
+      overflow: visible;
+    }
+    .process-track {
+      flex-direction: column;
+      gap: var(--space-5);
+      padding-inline: 0;
+      transform: none !important;
+    }
+    .process-card {
+      flex: 0 0 auto;
+      opacity: 1;
+      transform: none;
+      width: 100%;
+    }
+    .process-card-border {
+      animation: none;
+    }
+    .process-card-foot {
+      flex-wrap: wrap;
     }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .process-num::after {
-      animation: none;
+    .process-blob,
+    .process-card-border {
+      animation: none !important;
+    }
+    .process-card {
+      opacity: 1;
+      transform: none;
     }
   }
 </style>
+
+<script>
+  const scroller = document.querySelector<HTMLElement>('[data-process-scroller]');
+  const track = document.querySelector<HTMLElement>('[data-process-track]');
+  const fill = document.querySelector<HTMLElement>('[data-process-fill]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
+  const dots = Array.from(document.querySelectorAll<HTMLElement>('[data-dot]'));
+
+  if (scroller && track && cards.length) {
+    const isMobile = () => window.matchMedia('(max-width: 880px)').matches;
+
+    const update = () => {
+      if (isMobile()) {
+        track.style.transform = '';
+        return;
+      }
+      const rect = scroller.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const totalScroll = rect.height - vh; // scroll range
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+
+      // Translate the track horizontally based on progress
+      const trackWidth = track.scrollWidth;
+      const viewport = track.parentElement!.clientWidth;
+      const maxShift = Math.max(0, trackWidth - viewport);
+      track.style.transform = `translate3d(${-progress * maxShift}px, 0, 0)`;
+
+      // Highlight current card based on which card sits in the center of the viewport
+      const center = viewport / 2;
+      let currentIndex = 0;
+      let bestDist = Infinity;
+      cards.forEach((c, i) => {
+        const cRect = c.getBoundingClientRect();
+        const cCenter = cRect.left + cRect.width / 2 - track.parentElement!.getBoundingClientRect().left;
+        const dist = Math.abs(cCenter - center);
+        if (dist < bestDist) {
+          bestDist = dist;
+          currentIndex = i;
+        }
+      });
+      cards.forEach((c, i) => c.classList.toggle('is-current', i === currentIndex));
+      dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === currentIndex);
+        d.classList.toggle('is-passed', i < currentIndex);
+      });
+
+      if (fill) {
+        fill.style.width = `${progress * 100}%`;
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>

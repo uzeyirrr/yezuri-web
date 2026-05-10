@@ -1,5 +1,7 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { getDictionary, servicePath, type Locale } from '~/i18n/ui';
+import { getServices } from '~/data/services';
 
 export interface Props {
   locale: Locale;
@@ -7,157 +9,720 @@ export interface Props {
 
 const { locale } = Astro.props;
 const t = getDictionary(locale);
+const detailMap = new Map(getServices(locale).map((s) => [s.slug, s]));
 
-const icons: Record<string, string> = {
-  'dijital-strateji':
-    '<path d="M12 2 4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4Zm0 4 3 5h-2l1 4-5-5h2L11 6Z"/>',
-  'digital-strategy':
-    '<path d="M12 2 4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4Zm0 4 3 5h-2l1 4-5-5h2L11 6Z"/>',
-  'surec-otomasyonu':
-    '<path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 1 0-2 4.9l1.4 1.4A9 9 0 1 1 12 3Zm5 6 4 4-4 4v-3h-4v-2h4V9Z"/>',
-  'process-automation':
-    '<path d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 1 0-2 4.9l1.4 1.4A9 9 0 1 1 12 3Zm5 6 4 4-4 4v-3h-4v-2h4V9Z"/>',
-  'web-ve-mobil-gelistirme':
-    '<path d="M3 4h14v8H3V4Zm0 10h14v2H3v-2Zm17-7h2v14h-2V7Z"/>',
-  'web-and-mobile-development':
-    '<path d="M3 4h14v8H3V4Zm0 10h14v2H3v-2Zm17-7h2v14h-2V7Z"/>',
-  'veri-analitigi':
-    '<path d="M3 21V3h2v18H3Zm4-2V9h3v10H7Zm5 0V5h3v14h-3Zm5 0v-7h3v7h-3Z"/>',
-  'data-analytics':
-    '<path d="M3 21V3h2v18H3Zm4-2V9h3v10H7Zm5 0V5h3v14h-3Zm5 0v-7h3v7h-3Z"/>',
-  'bulut-gocu':
-    '<path d="M7 19a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 10.05 4 4 0 0 1 17 18H7Zm5-9-4 4h3v3h2v-3h3l-4-4Z"/>',
-  'cloud-migration':
-    '<path d="M7 19a5 5 0 0 1-.7-9.95A6 6 0 0 1 18 10.05 4 4 0 0 1 17 18H7Zm5-9-4 4h3v3h2v-3h3l-4-4Z"/>',
-  'e-ticaret':
-    '<path d="M7 4h-3v2h2l3.6 7.6-1.4 2.5A2 2 0 0 0 10 19h9v-2h-9l1-2h7a2 2 0 0 0 1.8-1.1L23 7H6L4.3 3H2"/>',
-  'e-commerce':
-    '<path d="M7 4h-3v2h2l3.6 7.6-1.4 2.5A2 2 0 0 0 10 19h9v-2h-9l1-2h7a2 2 0 0 0 1.8-1.1L23 7H6L4.3 3H2"/>',
+const iconBySlug: Record<string, string> = {
+  'dijital-strateji': 'lucide:compass',
+  'digital-strategy': 'lucide:compass',
+  'surec-otomasyonu': 'lucide:workflow',
+  'process-automation': 'lucide:workflow',
+  'web-ve-mobil-gelistirme': 'lucide:code-2',
+  'web-and-mobile-development': 'lucide:code-2',
+  'veri-analitigi': 'lucide:bar-chart-3',
+  'data-analytics': 'lucide:bar-chart-3',
+  'bulut-gocu': 'lucide:cloud-cog',
+  'cloud-migration': 'lucide:cloud-cog',
+  'e-ticaret': 'lucide:shopping-bag',
+  'e-commerce': 'lucide:shopping-bag',
+  'is-gelistirme': 'lucide:rocket',
+  'business-development': 'lucide:rocket',
 };
+
+const prevLabel = locale === 'tr' ? 'Önceki hizmet' : 'Previous service';
+const nextLabel = locale === 'tr' ? 'Sonraki hizmet' : 'Next service';
+const dragHint = locale === 'tr' ? 'Kaydırmak için sürükleyin' : 'Drag to scroll';
 ---
 
 <section id="services" class="services" aria-labelledby="services-title">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">{t.services.eyebrow}</span>
-      <h2 id="services-title">{t.services.title}</h2>
-      <p>{t.services.subtitle}</p>
+    <div class="services-head reveal">
+      <div>
+        <span class="eyebrow">{t.services.eyebrow}</span>
+        <h2 id="services-title">{t.services.title}</h2>
+        <p>{t.services.subtitle}</p>
+      </div>
+      <div class="services-controls">
+        <span class="services-hint" aria-hidden="true">
+          <Icon name="lucide:move-horizontal" width="14" height="14" />
+          {dragHint}
+        </span>
+        <div class="services-nav" aria-hidden="true">
+          <button type="button" class="services-nav-btn" data-svc-prev aria-label={prevLabel}>
+            <Icon name="lucide:arrow-left" width="20" height="20" />
+          </button>
+          <button type="button" class="services-nav-btn" data-svc-next aria-label={nextLabel}>
+            <Icon name="lucide:arrow-right" width="20" height="20" />
+          </button>
+        </div>
+      </div>
     </div>
 
-    <ul class="services-grid">
-      {t.services.items.map((service, i) => (
-        <li class="service-card reveal" data-tilt style={`transition-delay: ${i * 80}ms`}>
-          <a href={servicePath(locale, service.slug)} class="service-link">
-            <div class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" set:html={icons[service.slug] ?? ''} />
-            </div>
-            <h3>{service.title}</h3>
-            <p>{service.summary}</p>
-            <span class="service-cta">
-              {t.services.ctaLabel}
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="services-track-wrap">
+      <ul class="services-track" data-svc-track role="list">
+        {t.services.items.map((service, i) => {
+          const detail = detailMap.get(service.slug);
+          const highlights = detail?.offerings?.slice(0, 3) ?? [];
+          const num = String(i + 1).padStart(2, '0');
+          return (
+            <li class="service-card reveal" style={`transition-delay: ${i * 60}ms`}>
+              <article class="service-link" data-svc-card>
+                <span class="service-border" aria-hidden="true"></span>
+                <span class="service-shine" aria-hidden="true"></span>
+                <span class="service-mesh" aria-hidden="true"></span>
+                <div class="service-inner">
+                  <div class="service-top">
+                    <div class="service-icon-stage" aria-hidden="true">
+                      <span class="service-icon-grid"></span>
+                      <span class="service-icon-orb"></span>
+                      <span class="service-icon" aria-hidden="true">
+                        <Icon class="service-icon-svg" name={iconBySlug[service.slug] ?? 'lucide:sparkles'} width="30" height="30" />
+                      </span>
+                    </div>
+                    <span class="service-num" aria-hidden="true">{num}</span>
+                  </div>
+                  <div class="service-body">
+                    <h3>{service.title}</h3>
+                    <p>{service.summary}</p>
+                    {highlights.length > 0 && (
+                      <ul class="service-chips" aria-hidden="true">
+                        {highlights.map((h) => (
+                          <li>
+                            <span class="chip-dot" aria-hidden="true"></span>
+                            <span>{h}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  <div class="service-foot">
+                    <a class="service-cta" href={servicePath(locale, service.slug)} aria-label={`${service.title} — ${t.services.ctaLabel}`}>
+                      <span>{t.services.ctaLabel}</span>
+                      <span class="service-cta-arrow" aria-hidden="true">
+                        <Icon name="lucide:arrow-right" width="16" height="16" />
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <div class="services-progress" aria-hidden="true">
+      <span class="services-progress-bar" data-svc-progress></span>
+    </div>
   </div>
 </section>
 
 <style>
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-  .service-card {
+  .services {
     position: relative;
+  }
+  .services-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+  }
+  .services-head > div:first-child {
+    max-width: 56ch;
+  }
+  .services-head p {
+    margin-top: var(--space-3);
+  }
+  .services-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .services-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-glass);
     border: 1px solid var(--border);
-    background: linear-gradient(160deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: transform 0.4s var(--ease-out), border-color 0.4s var(--ease-out),
-      box-shadow 0.4s var(--ease-out);
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    color: var(--text-mute);
+    letter-spacing: -0.005em;
   }
-  .service-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), var(--accent-fade), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s var(--ease-out);
-    pointer-events: none;
+  .services-nav {
+    display: inline-flex;
+    gap: var(--space-2);
   }
-  .service-card:hover {
-    border-color: var(--accent-fade);
-    box-shadow: var(--shadow-accent);
-  }
-  .service-card:hover::before {
-    opacity: 1;
-  }
-  .service-link {
-    display: block;
-    padding: var(--space-6);
-    height: 100%;
-  }
-  .service-icon {
-    width: 54px;
-    height: 54px;
+  .services-nav-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong);
+    background: var(--surface-glass);
+    color: var(--text);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-md);
-    background: rgba(225, 29, 46, 0.12);
-    color: var(--accent);
-    margin-bottom: var(--space-5);
-    transition: transform 0.4s var(--ease-out), background 0.4s var(--ease-out);
+    cursor: pointer;
+    transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out),
+      color 0.25s var(--ease-out), transform 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
   }
-  .service-card:hover .service-icon {
-    transform: scale(1.08) rotate(-4deg);
+  .services-nav-btn:hover:not(:disabled) {
     background: var(--accent);
+    border-color: var(--accent);
     color: white;
+    transform: translateY(-2px);
   }
-  .service-card h3 {
-    margin-bottom: var(--space-3);
+  .services-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
-  .service-card p {
-    font-size: 0.95rem;
-    margin-bottom: var(--space-5);
+
+  .services-track-wrap {
+    position: relative;
+    margin: 0 calc(-1 * clamp(1rem, 4vw, 2rem));
+    padding: var(--space-3) 0;
+  }
+  .services-track-wrap::before,
+  .services-track-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(1rem, 4vw, 2rem);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .services-track-wrap::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg-base), transparent);
+  }
+  .services-track-wrap::after {
+    right: 0;
+    background: linear-gradient(-90deg, var(--bg-base), transparent);
+  }
+
+  .services-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(320px, 360px);
+    gap: var(--space-4);
+    padding: 8px clamp(1rem, 4vw, 2rem) var(--space-5);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: clamp(1rem, 4vw, 2rem);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    cursor: grab;
+    perspective: 1200px;
+    perspective-origin: 50% 30%;
+    user-select: none;
+  }
+  .services-track::-webkit-scrollbar {
+    display: none;
+  }
+  .services-track.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+  .services-track.dragging .service-card {
+    scroll-snap-align: none;
+  }
+  .services-track.dragging .service-link {
+    pointer-events: none;
+  }
+
+  .service-card {
+    scroll-snap-align: start;
+    display: flex;
+  }
+
+  .service-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    isolation: isolate;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    transition: transform 0.5s var(--ease-out);
+    will-change: transform;
+  }
+
+  .service-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    height: 100%;
+    padding: var(--space-5);
+    border-radius: inherit;
+    background:
+      radial-gradient(120% 60% at 100% 0%, rgba(225, 29, 46, 0.08), transparent 60%),
+      linear-gradient(160deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: border-color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+  .service-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse 80% 60% at 80% 0%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 80% 0%, black 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  /* Rotating conic gradient border (visible on hover) */
+  .service-border {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      transparent 0deg,
+      var(--accent) 70deg,
+      var(--accent-hot) 120deg,
+      transparent 200deg,
+      transparent 360deg
+    );
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.5s var(--ease-out);
+    animation: svc-rotate 6s linear infinite;
+  }
+  .service-link:hover .service-border,
+  .service-link:focus-visible .service-border {
+    opacity: 1;
+  }
+  @keyframes svc-rotate {
+    to {
+      --angle: 360deg;
+    }
+  }
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  /* Diagonal shine sweep on hover */
+  .service-shine {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .service-shine::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.9s var(--ease-out);
+  }
+  .service-link:hover .service-shine::before {
+    left: 130%;
+  }
+
+  /* Pointer-tracked mesh / spotlight inside card */
+  .service-mesh {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--accent-fade), transparent 60%),
+      radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.04), transparent 60%);
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease-out);
+  }
+  .service-link:hover .service-mesh,
+  .service-link:focus-visible .service-mesh {
+    opacity: 1;
+  }
+
+  .service-link:hover,
+  .service-link:focus-visible {
+    transform: translateY(-6px) translateZ(0);
+  }
+  .service-link:hover .service-inner,
+  .service-link:focus-visible .service-inner {
+    border-color: transparent;
+    box-shadow: 0 24px 60px rgba(225, 29, 46, 0.18), 0 0 0 1px rgba(225, 29, 46, 0.3) inset;
+  }
+
+  .service-top {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .service-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.4rem;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--border-strong);
+    text-stroke: 1px var(--border-strong);
+    transition: -webkit-text-stroke-color 0.4s var(--ease-out), color 0.4s var(--ease-out),
+      transform 0.4s var(--ease-out);
+  }
+  .service-link:hover .service-num {
+    -webkit-text-stroke-color: var(--accent);
+    color: rgba(225, 29, 46, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .service-icon-stage {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(140deg, rgba(225, 29, 46, 0.18) 0%, rgba(225, 29, 46, 0.02) 100%);
+    border: 1px solid rgba(225, 29, 46, 0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-color 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  }
+  .service-icon-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 12px 12px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 75%);
+    z-index: 0;
+  }
+  .service-icon-orb {
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at 50% 50%, var(--accent-glow), transparent 60%);
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    transform: translate(0, 0);
+  }
+  .service-icon {
+    position: relative;
+    z-index: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(140deg, var(--accent-hot), var(--accent-deep));
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(225, 29, 46, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .service-icon-svg {
+    transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .service-link:hover .service-icon-stage {
+    border-color: rgba(225, 29, 46, 0.4);
+    transform: rotate(-2deg);
+  }
+  .service-link:hover .service-icon-orb {
+    opacity: 1;
+    transform: translate(8%, -10%);
+  }
+  .service-link:hover .service-icon {
+    transform: rotate(8deg) scale(1.06);
+  }
+  .service-link:hover .service-icon-svg {
+    transform: rotate(-8deg);
+  }
+
+  .service-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+  .service-inner h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, var(--text) 0%, var(--text) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition: background 0.5s var(--ease-out);
+  }
+  .service-link:hover .service-inner h3 {
+    background: linear-gradient(180deg, var(--text) 0%, var(--accent-hot) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .service-body > p {
+    font-size: 0.94rem;
     color: var(--text-mute);
+    line-height: 1.6;
+  }
+
+  .service-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: var(--space-2);
+  }
+  .service-chips li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-mute);
+    line-height: 1.4;
+  }
+  .chip-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(225, 29, 46, 0.12);
+    transition: box-shadow 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  }
+  .service-link:hover .service-chips li {
+    color: var(--text);
+  }
+  .service-link:hover .chip-dot {
+    box-shadow: 0 0 0 3px rgba(225, 29, 46, 0.25);
+  }
+  .service-link:hover .service-chips li:nth-child(1) .chip-dot { transform: scale(1.3); transition-delay: 0s; }
+  .service-link:hover .service-chips li:nth-child(2) .chip-dot { transform: scale(1.3); transition-delay: 0.06s; }
+  .service-link:hover .service-chips li:nth-child(3) .chip-dot { transform: scale(1.3); transition-delay: 0.12s; }
+
+  .service-foot {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--border);
   }
   .service-cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--accent);
-    transition: gap 0.3s var(--ease-out);
+    text-decoration: none;
+    cursor: pointer;
+    pointer-events: auto;
   }
-  .service-card:hover .service-cta {
-    gap: 14px;
+  .service-cta-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-pill);
+    background: rgba(225, 29, 46, 0.12);
+    border: 1px solid rgba(225, 29, 46, 0.2);
+    transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out),
+      transform 0.3s var(--ease-out), color 0.3s var(--ease-out);
   }
-  @media (max-width: 900px) {
-    .services-grid {
-      grid-template-columns: repeat(2, 1fr);
+  .service-link:hover .service-cta-arrow {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    transform: translateX(6px);
+    box-shadow: 0 6px 16px var(--accent-glow);
+  }
+
+  .services-progress {
+    height: 3px;
+    background: var(--border);
+    border-radius: var(--radius-pill);
+    margin-top: var(--space-5);
+    overflow: hidden;
+    max-width: 220px;
+  }
+  .services-progress-bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hot));
+    border-radius: inherit;
+    transition: width 0.25s var(--ease-out);
+  }
+
+  @media (max-width: 720px) {
+    .services-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+    .services-hint {
+      display: none;
+    }
+    .services-track {
+      grid-auto-columns: 85%;
     }
   }
-  @media (max-width: 560px) {
-    .services-grid {
-      grid-template-columns: 1fr;
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-border {
+      animation: none;
+    }
+    .service-shine::before {
+      transition: none;
+    }
+    .service-link:hover,
+    .service-link:focus-visible {
+      transform: none;
+    }
+    .service-link:hover .service-icon {
+      transform: none;
     }
   }
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>('.service-card').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (((e as PointerEvent).clientX - rect.left) / rect.width) * 100;
-      const y = (((e as PointerEvent).clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty('--mx', `${x}%`);
-      card.style.setProperty('--my', `${y}%`);
+  const track = document.querySelector<HTMLElement>('[data-svc-track]');
+  const prevBtn = document.querySelector<HTMLButtonElement>('[data-svc-prev]');
+  const nextBtn = document.querySelector<HTMLButtonElement>('[data-svc-next]');
+  const progressBar = document.querySelector<HTMLElement>('[data-svc-progress]');
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (track && prevBtn && nextBtn) {
+    const getStep = () => {
+      const first = track.firstElementChild as HTMLElement | null;
+      if (!first) return 0;
+      const styles = getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap || '0');
+      return first.getBoundingClientRect().width + gap;
+    };
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = max > 0 ? track.scrollLeft / max : 0;
+      if (progressBar) progressBar.style.width = `${Math.min(100, ratio * 100)}%`;
+      prevBtn.disabled = track.scrollLeft <= 1;
+      nextBtn.disabled = track.scrollLeft >= max - 1;
+    };
+
+    prevBtn.addEventListener('click', () => {
+      track.scrollBy({ left: -getStep(), behavior: 'smooth' });
     });
-  });
+    nextBtn.addEventListener('click', () => {
+      track.scrollBy({ left: getStep(), behavior: 'smooth' });
+    });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    // Drag-to-scroll (mouse)
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let dragMoved = false;
+    let pointerId: number | null = null;
+
+    const DRAG_THRESHOLD = 6;
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return; // let native touch scrolling handle this
+      isDown = true;
+      dragMoved = false;
+      startX = e.clientX;
+      scrollLeft = track.scrollLeft;
+      pointerId = e.pointerId;
+      // do NOT add .dragging yet — wait for real movement so plain clicks still work
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (!dragMoved && Math.abs(dx) > DRAG_THRESHOLD) {
+        dragMoved = true;
+        track.classList.add('dragging');
+      }
+      if (dragMoved) {
+        e.preventDefault();
+        track.scrollLeft = scrollLeft - dx;
+      }
+    };
+    const stop = () => {
+      if (!isDown) return;
+      isDown = false;
+      if (pointerId !== null) {
+        try { track.releasePointerCapture(pointerId); } catch (e) {}
+      }
+      pointerId = null;
+      // Keep .dragging during click-suppress phase, then remove next frame
+      if (dragMoved) {
+        requestAnimationFrame(() => track.classList.remove('dragging'));
+      }
+    };
+
+    track.addEventListener('pointerdown', onPointerDown);
+    track.addEventListener('pointermove', onPointerMove);
+    track.addEventListener('pointerup', stop);
+    track.addEventListener('pointercancel', stop);
+    track.addEventListener('pointerleave', stop);
+
+    // Suppress click after a real drag (prevent accidental navigation)
+    track.addEventListener('click', (e) => {
+      if (dragMoved) {
+        e.preventDefault();
+        e.stopPropagation();
+        dragMoved = false;
+      }
+    }, true);
+
+    // Pointer-tracked spotlight + subtle 3D tilt on each card
+    document.querySelectorAll<HTMLElement>('[data-svc-card]').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e as PointerEvent).clientX - rect.left) / rect.width;
+        const y = ((e as PointerEvent).clientY - rect.top) / rect.height;
+        card.style.setProperty('--mx', `${x * 100}%`);
+        card.style.setProperty('--my', `${y * 100}%`);
+        if (motionOk && !track.classList.contains('dragging')) {
+          const rotY = (x - 0.5) * 8;
+          const rotX = -(y - 0.5) * 8;
+          card.style.transform = `translateY(-6px) perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        }
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
 </script>

@@ -22,7 +22,7 @@ const serviceLd = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: service.title,
-  description: service.intro,
+  description: service.intro.join(' '),
   provider: { '@id': 'https://yezuri.com/#organization' },
   areaServed: { '@type': 'Country', name: 'Turkey' },
   serviceType: service.title,

@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://yezuri.com',
@@ -12,6 +13,11 @@ export default defineConfig({
     },
   },
   integrations: [
+    icon({
+      include: {
+        lucide: ['*'],
+      },
+    }),
     sitemap({
       i18n: {
         defaultLocale: 'tr',
