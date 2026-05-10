@@ -114,12 +114,12 @@
     "title": "What we've built together",
     "subtitle": "Selected case studies across industries. More to come.",
     "items": [
-      { "title": "Logistics SaaS Platform", "category": "Software Development", "metric": "+240% efficiency" },
-      { "title": "Retail Analytics Dashboard", "category": "Data Analytics", "metric": "12 locations live" },
-      { "title": "Bank Process Automation", "category": "RPA / Automation", "metric": "320 hrs/month saved" },
-      { "title": "E-Commerce Re-platform", "category": "E-Commerce", "metric": "+180% conversion" },
-      { "title": "Cloud Migration", "category": "Cloud / DevOps", "metric": "65% cost reduction" },
-      { "title": "Mobile Field App", "category": "Mobile Development", "metric": "8,000+ active users" }
+      { "title": "Logistics SaaS Platform", "category": "Software Development", "metric": "+240% efficiency", "image": "/projects/logistics.jpg" },
+      { "title": "Retail Analytics Dashboard", "category": "Data Analytics", "metric": "12 locations live", "image": "/projects/analytics.jpg" },
+      { "title": "Bank Process Automation", "category": "RPA / Automation", "metric": "320 hrs/month saved", "image": "/projects/banking.jpg" },
+      { "title": "E-Commerce Re-platform", "category": "E-Commerce", "metric": "+180% conversion", "image": "/projects/ecommerce.jpg" },
+      { "title": "Cloud Migration", "category": "Cloud / DevOps", "metric": "65% cost reduction", "image": "/projects/cloud.jpg" },
+      { "title": "Mobile Field App", "category": "Mobile Development", "metric": "8,000+ active users", "image": "/projects/mobile-field.jpg" }
     ]
   },
   "clients": {
@@ -127,8 +127,9 @@
     "title": "Trusted by brands"
   },
   "testimonials": {
-    "eyebrow": "Testimonials",
-    "title": "What our clients say",
+    "eyebrow": "Customer Love",
+    "title": "Loved by the teams we work with",
+    "subtitle": "Real experiences from leaders growing with our brand.",
     "items": [
       {
         "quote": "The Yezuri team turned our digital transformation from guesswork into a measurable path. Operational efficiency doubled.",
@@ -144,6 +145,26 @@
         "quote": "Not just a development agency, but a true strategic partner. Every recommendation has paid off.",
         "author": "E. Kaya",
         "role": "CTO, Fintech"
+      },
+      {
+        "quote": "With process automation, our back office finally focuses on strategic work. The shift was bigger than we expected.",
+        "author": "F. Şahin",
+        "role": "CFO, Manufacturing"
+      },
+      {
+        "quote": "A team that moves faster than we expected and always delivers on its word. Our CX score climbed 30%.",
+        "author": "S. Aksoy",
+        "role": "Marketing Director, E-Commerce"
+      },
+      {
+        "quote": "Their technical depth translated tech into business language — IT and business sit at the same table for the first time.",
+        "author": "B. Özkan",
+        "role": "IT Manager, Insurance"
+      },
+      {
+        "quote": "Our roadmap is no longer a wish list — it's a living plan with measurable goals.",
+        "author": "K. Tunç",
+        "role": "General Manager, Healthcare"
       }
     ]
   },

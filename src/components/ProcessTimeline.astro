@@ -11,86 +11,56 @@ const t = getDictionary(locale);
 
 const stepIcons = ['lucide:search', 'lucide:map', 'lucide:rocket', 'lucide:trending-up'];
 const stepCount = t.process.steps.length;
+
+const banner = locale === 'tr'
+  ? { lead: 'Kaliteyi seçen markalarla', highlight: 'aynı yoldayız', cta: 'Hemen başlayalım' }
+  : { lead: 'Align with brands that', highlight: 'choose quality', cta: 'Start now' };
 ---
 
-<section id="process" class="process" aria-labelledby="process-title" style={`--step-count: ${stepCount}`}>
+<section id="process" class="process" aria-labelledby="process-title">
   <div class="process-bg" aria-hidden="true">
     <span class="process-blob process-blob-1"></span>
     <span class="process-blob process-blob-2"></span>
     <span class="process-grid"></span>
   </div>
 
-  <div class="process-scroller" data-process-scroller>
-    <div class="process-sticky">
-      <div class="container process-header">
-        <div class="section-head reveal">
-          <span class="eyebrow">{t.process.eyebrow}</span>
-          <h2 id="process-title">{t.process.title}</h2>
-          <p>{t.process.subtitle}</p>
-        </div>
+  <div class="container">
+    <header class="process-head reveal">
+      <span class="eyebrow">{t.process.eyebrow}</span>
+      <h2 id="process-title">{t.process.title}</h2>
+    </header>
 
-        <div class="process-progress" aria-hidden="true">
-          <div class="process-progress-rail">
-            <span class="process-progress-fill" data-process-fill></span>
-            <ol class="process-progress-dots">
-              {t.process.steps.map((s, i) => (
-                <li data-dot={i}>
-                  <span class="dot-num">{s.step}</span>
-                </li>
-              ))}
-            </ol>
+    <ol class="process-cards reveal">
+      {t.process.steps.map((step, i) => (
+        <li class="step-card">
+          <div class="step-card-top">
+            <span class="step-num">{step.step}</span>
+            <span class="step-icon" aria-hidden="true">
+              <Icon name={stepIcons[i] ?? 'lucide:sparkles'} width="20" height="20" />
+            </span>
           </div>
-        </div>
+          <h3>{step.title}</h3>
+          <p>{step.detail}</p>
+          <span class="step-card-rule" aria-hidden="true">
+            {i + 1 < stepCount && <Icon name="lucide:arrow-right" width="14" height="14" />}
+          </span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="process-banner reveal">
+      <div class="process-avatars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
-
-      <div class="process-stage">
-        <ol class="process-track" data-process-track>
-          {t.process.steps.map((step, i) => (
-            <li class="process-card" data-card={i}>
-              <span class="process-card-border" aria-hidden="true"></span>
-              <div class="process-card-inner">
-                <span class="process-card-watermark" aria-hidden="true">{step.step}</span>
-
-                <div class="process-card-head">
-                  <span class="process-card-icon" aria-hidden="true">
-                    <Icon name={stepIcons[i] ?? 'lucide:sparkles'} width="26" height="26" />
-                  </span>
-                  <div class="process-card-meta">
-                    <span class="process-card-tag">
-                      {locale === 'tr' ? 'Aşama' : 'Stage'} {step.step} / {String(stepCount).padStart(2, '0')}
-                    </span>
-                    <span class="process-card-route">
-                      {i + 1 < stepCount ? (
-                        <>
-                          <Icon name="lucide:arrow-right" width="12" height="12" />
-                          <span>{t.process.steps[i + 1].title}</span>
-                        </>
-                      ) : (
-                        <>
-                          <Icon name="lucide:check-circle-2" width="12" height="12" />
-                          <span>{locale === 'tr' ? 'Tamamlandı' : 'Complete'}</span>
-                        </>
-                      )}
-                    </span>
-                  </div>
-                </div>
-
-                <h3>{step.title}</h3>
-                <p>{step.detail}</p>
-
-                <div class="process-card-foot">
-                  <span class="process-card-step">{step.step}</span>
-                  <span class="process-card-divider" aria-hidden="true"></span>
-                  <span class="process-card-hint">
-                    {locale === 'tr' ? 'Devam etmek için kaydırın' : 'Scroll to continue'}
-                    <Icon name="lucide:mouse" width="14" height="14" />
-                  </span>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
+      <p class="process-banner-text">
+        {banner.lead} <strong>{banner.highlight}</strong>
+      </p>
+      <a class="btn btn-primary process-banner-cta" href="#contact" data-magnetic>
+        {banner.cta}
+        <Icon name="lucide:arrow-right" width="16" height="16" />
+      </a>
     </div>
   </div>
 </section>
@@ -98,15 +68,15 @@ const stepCount = t.process.steps.length;
 <style>
   .process {
     position: relative;
-    --step-count: 4;
-    /* Total scroll length: 1 viewport per step (minus 1) + 1 viewport for the intro hold */
-    height: calc(100vh * var(--step-count));
+    padding-block: clamp(4rem, 9vw, 7rem);
+    overflow: hidden;
+    isolation: isolate;
   }
 
   .process-bg {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
     pointer-events: none;
   }
   .process-blob {
@@ -114,21 +84,19 @@ const stepCount = t.process.steps.length;
     width: 55vmax;
     height: 55vmax;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.22;
+    filter: blur(130px);
+    opacity: 0.2;
   }
   .process-blob-1 {
-    top: -20%;
+    top: -25%;
     left: -15%;
     background: radial-gradient(circle, var(--accent-deep), transparent 60%);
-    animation: process-float-1 22s var(--ease-in-out) infinite;
   }
   .process-blob-2 {
-    bottom: -25%;
-    right: -10%;
+    bottom: -30%;
+    right: -15%;
     background: radial-gradient(circle, var(--accent), transparent 60%);
-    animation: process-float-2 26s var(--ease-in-out) infinite;
-    opacity: 0.16;
+    opacity: 0.14;
   }
   .process-grid {
     position: absolute;
@@ -141,401 +109,203 @@ const stepCount = t.process.steps.length;
     -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 50%, black 0%, transparent 75%);
     opacity: 0.5;
   }
-  @keyframes process-float-1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(60px, 40px) scale(1.08); }
-  }
-  @keyframes process-float-2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-50px, -40px) scale(1.1); }
-  }
   :root[data-theme='light'] .process-blob {
-    opacity: 0.1;
+    opacity: 0.08;
   }
 
-  .process-scroller {
-    position: relative;
-    height: 100%;
-    z-index: 1;
-  }
-  .process-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: clamp(1.5rem, 4vh, 3rem);
-    padding-block: clamp(2rem, 6vh, 4rem);
-  }
-
-  .process-header {
-    flex-shrink: 0;
-  }
-  .process-header .section-head {
-    margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
-  }
-
-  /* Progress rail */
-  .process-progress {
+  .process-head {
     max-width: 720px;
+    margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
   }
-  .process-progress-rail {
-    position: relative;
-    height: 2px;
-    background: var(--border);
-    border-radius: var(--radius-pill);
-  }
-  .process-progress-fill {
-    display: block;
-    height: 100%;
-    width: 0;
-    background: linear-gradient(90deg, var(--accent-hot), var(--accent));
-    border-radius: inherit;
-    box-shadow: 0 0 12px var(--accent-glow);
-    will-change: width;
-  }
-  .process-progress-dots {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .process-progress-dots li {
-    position: relative;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--bg-base);
-    border: 1px solid var(--border-strong);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: -18px;
-    transition: border-color 0.4s var(--ease-out), background 0.4s var(--ease-out),
-      box-shadow 0.4s var(--ease-out);
-  }
-  .process-progress-dots li:first-child {
-    margin-left: 0;
-  }
-  .process-progress-dots li:last-child {
-    margin-right: -18px;
-  }
-  .dot-num {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 0.78rem;
-    color: var(--text-mute);
-    transition: color 0.4s var(--ease-out);
-  }
-  .process-progress-dots li.is-active {
-    background: var(--accent);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(225, 29, 46, 0.18), 0 8px 22px var(--accent-glow);
-  }
-  .process-progress-dots li.is-active .dot-num {
-    color: white;
-  }
-  .process-progress-dots li.is-passed {
-    background: var(--accent-deep);
-    border-color: var(--accent-deep);
-  }
-  .process-progress-dots li.is-passed .dot-num {
-    color: white;
-  }
-
-  /* Horizontal track */
-  .process-stage {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
-  .process-track {
-    display: flex;
-    align-items: stretch;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    padding-inline: clamp(1rem, 4vw, 2rem);
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    transition: transform 0.05s linear;
-  }
-
-  /* Card */
-  .process-card {
-    flex: 0 0 min(720px, 80vw);
-    position: relative;
-    border-radius: var(--radius-xl);
-    isolation: isolate;
-    opacity: 0.35;
-    transform: scale(0.94);
-    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
-  }
-  .process-card.is-current {
-    opacity: 1;
-    transform: scale(1);
-  }
-  .process-card-border {
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from var(--card-angle, 0deg),
-      transparent 0deg,
-      var(--accent) 70deg,
-      var(--accent-hot) 130deg,
-      transparent 220deg,
-      transparent 360deg
-    );
-    opacity: 0;
-    z-index: 0;
-    animation: card-rotate 10s linear infinite;
-    transition: opacity 0.5s var(--ease-out);
-  }
-  @property --card-angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-  }
-  @keyframes card-rotate {
-    to { --card-angle: 360deg; }
-  }
-  .process-card.is-current .process-card-border {
-    opacity: 0.9;
-  }
-
-  .process-card-inner {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    height: 100%;
-    padding: clamp(2rem, 4vw, 3rem);
-    border-radius: inherit;
-    background:
-      radial-gradient(120% 60% at 100% 0%, rgba(225, 29, 46, 0.1), transparent 60%),
-      linear-gradient(160deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-
-  .process-card-watermark {
-    position: absolute;
-    right: -0.04em;
-    bottom: -0.32em;
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-size: clamp(8rem, 22vw, 18rem);
-    line-height: 0.85;
-    letter-spacing: -0.06em;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(225, 29, 46, 0.16);
-    text-stroke: 1px rgba(225, 29, 46, 0.16);
-    pointer-events: none;
-  }
-
-  .process-card-head {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-  .process-card-icon {
-    flex-shrink: 0;
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: linear-gradient(140deg, var(--accent-hot), var(--accent-deep));
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 28px rgba(225, 29, 46, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  }
-  .process-card-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .process-card-tag {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.74rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-mute);
-  }
-  .process-card-route {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.86rem;
-    color: var(--accent);
-  }
-
-  .process-card h3 {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
-    font-weight: 700;
+  .process-head h2 {
+    margin-top: var(--space-4);
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    line-height: 1.1;
     letter-spacing: -0.025em;
-    background: linear-gradient(180deg, var(--text) 0%, var(--text) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  .process-card.is-current h3 {
-    background: linear-gradient(180deg, var(--text) 0%, var(--accent-hot) 110%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .process-card p {
-    font-size: clamp(1rem, 1.4vw, 1.12rem);
-    line-height: 1.7;
-    color: var(--text-mute);
-    max-width: 50ch;
   }
 
-  .process-card-foot {
-    margin-top: auto;
+  .process-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.85rem, 1.4vw, 1.25rem);
+  }
+
+  .step-card {
+    position: relative;
+    padding: clamp(1.25rem, 1.8vw, 1.75rem);
+    border-radius: var(--radius-lg);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+      var(--bg-elev);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: border-color 0.35s var(--ease-out), transform 0.35s var(--ease-out),
+      background 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  }
+  :root[data-theme='light'] .step-card {
+    background:
+      linear-gradient(180deg, rgba(10, 10, 11, 0.02), transparent),
+      var(--bg-elev);
+  }
+  .step-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-fade);
+    background:
+      linear-gradient(180deg, rgba(225, 29, 46, 0.08), rgba(225, 29, 46, 0.01)),
+      var(--bg-elev);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+  }
+  :root[data-theme='light'] .step-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .step-card-top {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
-    padding-top: var(--space-5);
-    border-top: 1px dashed var(--border);
+    justify-content: space-between;
   }
-  .process-card-step {
+  .step-num {
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
     letter-spacing: -0.04em;
+    line-height: 1;
     background: linear-gradient(180deg, var(--accent-hot), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .process-card-divider {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--accent-fade), transparent);
-  }
-  .process-card-hint {
+  .step-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-family: var(--font-display);
-    font-size: 0.78rem;
-    color: var(--text-mute);
+    justify-content: center;
+    background: var(--accent-mute);
+    color: var(--accent);
+    border: 1px solid var(--accent-fade);
+    transition: background 0.35s var(--ease-out), color 0.35s var(--ease-out);
+  }
+  .step-card:hover .step-icon {
+    background: var(--accent);
+    color: white;
   }
 
-  /* Mobile fallback: regular vertical stack */
-  @media (max-width: 880px) {
-    .process {
-      height: auto;
+  .step-card h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .step-card p {
+    color: var(--text-mute);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .step-card-rule {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--accent);
+    opacity: 0.6;
+    min-height: 22px;
+  }
+
+  .process-banner {
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    padding: clamp(0.7rem, 1.4vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+    border-radius: var(--radius-pill);
+    background:
+      linear-gradient(90deg, rgba(225, 29, 46, 0.1), transparent 55%),
+      var(--bg-elev);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    flex-wrap: wrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .process-avatars {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .process-avatars span {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-elev);
+    margin-left: -10px;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  }
+  .process-avatars span:first-child {
+    margin-left: 0;
+    background: linear-gradient(135deg, #ffb199, var(--accent));
+  }
+  .process-avatars span:nth-child(2) {
+    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
+  }
+  .process-avatars span:nth-child(3) {
+    background: linear-gradient(135deg, #5a0810, #1a0205);
+  }
+
+  .process-banner-text {
+    flex: 1;
+    min-width: 200px;
+    color: var(--text-mute);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .process-banner-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .process-banner-cta {
+    padding: 10px 18px;
+    font-size: 0.88rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .process-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .process-scroller {
-      height: auto;
+  }
+  @media (max-width: 540px) {
+    .process-cards {
+      grid-template-columns: 1fr;
     }
-    .process-sticky {
-      position: relative;
-      top: auto;
-      height: auto;
-      overflow: visible;
-      padding-block: clamp(2rem, 6vw, 3rem);
-      gap: var(--space-6);
-    }
-    .process-progress {
-      display: none;
-    }
-    .process-stage {
-      overflow: visible;
-    }
-    .process-track {
+    .process-banner {
+      border-radius: var(--radius-lg);
       flex-direction: column;
-      gap: var(--space-5);
-      padding-inline: 0;
-      transform: none !important;
+      align-items: stretch;
+      text-align: center;
     }
-    .process-card {
-      flex: 0 0 auto;
-      opacity: 1;
-      transform: none;
-      width: 100%;
+    .process-avatars {
+      justify-content: center;
     }
-    .process-card-border {
-      animation: none;
-    }
-    .process-card-foot {
-      flex-wrap: wrap;
+    .process-banner-cta {
+      justify-content: center;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .process-blob,
-    .process-card-border {
-      animation: none !important;
-    }
-    .process-card {
-      opacity: 1;
+    .step-card,
+    .step-card:hover {
       transform: none;
     }
   }
 </style>
-
-<script>
-  const scroller = document.querySelector<HTMLElement>('[data-process-scroller]');
-  const track = document.querySelector<HTMLElement>('[data-process-track]');
-  const fill = document.querySelector<HTMLElement>('[data-process-fill]');
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
-  const dots = Array.from(document.querySelectorAll<HTMLElement>('[data-dot]'));
-
-  if (scroller && track && cards.length) {
-    const isMobile = () => window.matchMedia('(max-width: 880px)').matches;
-
-    const update = () => {
-      if (isMobile()) {
-        track.style.transform = '';
-        return;
-      }
-      const rect = scroller.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const totalScroll = rect.height - vh; // scroll range
-      const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
-
-      // Translate the track horizontally based on progress
-      const trackWidth = track.scrollWidth;
-      const viewport = track.parentElement!.clientWidth;
-      const maxShift = Math.max(0, trackWidth - viewport);
-      track.style.transform = `translate3d(${-progress * maxShift}px, 0, 0)`;
-
-      // Highlight current card based on which card sits in the center of the viewport
-      const center = viewport / 2;
-      let currentIndex = 0;
-      let bestDist = Infinity;
-      cards.forEach((c, i) => {
-        const cRect = c.getBoundingClientRect();
-        const cCenter = cRect.left + cRect.width / 2 - track.parentElement!.getBoundingClientRect().left;
-        const dist = Math.abs(cCenter - center);
-        if (dist < bestDist) {
-          bestDist = dist;
-          currentIndex = i;
-        }
-      });
-      cards.forEach((c, i) => c.classList.toggle('is-current', i === currentIndex));
-      dots.forEach((d, i) => {
-        d.classList.toggle('is-active', i === currentIndex);
-        d.classList.toggle('is-passed', i < currentIndex);
-      });
-
-      if (fill) {
-        fill.style.width = `${progress * 100}%`;
-      }
-    };
-
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-  }
-</script>

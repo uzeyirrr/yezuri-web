@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon/components';
 import { getDictionary, type Locale } from '~/i18n/ui';
 
 export interface Props {
@@ -7,96 +8,335 @@ export interface Props {
 
 const { locale } = Astro.props;
 const t = getDictionary(locale);
+
+const toHandle = (name: string) =>
+  '@' +
+  name
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ı/g, 'i')
+    .replace(/ş/g, 's')
+    .replace(/ç/g, 'c')
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ö/g, 'o')
+    .replace(/[.\s]+/g, '');
+
+const items = t.testimonials.items;
+const topRow = items.slice(0, 4);
+const botRow = items.slice(4, 7);
+const mention = '@yezuri';
 ---
 
 <section class="testi" aria-labelledby="testi-title">
   <div class="container">
-    <div class="section-head reveal">
-      <span class="eyebrow">{t.testimonials.eyebrow}</span>
-      <h2 id="testi-title">{t.testimonials.title}</h2>
-    </div>
+    <div class="testi-panel">
+      <div class="testi-bg" aria-hidden="true">
+        <span class="testi-stars"></span>
+        <span class="testi-horizon"></span>
+        <span class="testi-glow"></span>
+        <span class="testi-line"></span>
+      </div>
 
-    <ul class="testi-grid">
-      {t.testimonials.items.map((item, i) => (
-        <li class="testi-card reveal" style={`transition-delay: ${i * 100}ms`}>
-          <svg class="testi-quote" viewBox="0 0 32 32" width="36" height="36" fill="currentColor" aria-hidden="true">
-            <path d="M10.5 8C6.4 8 3 11.4 3 15.5S6.4 23 10.5 23H11V14H7v-1c0-1.7 1.3-3 3-3h.5V8Zm14 0c-4.1 0-7.5 3.4-7.5 7.5S20.4 23 24.5 23h.5V14h-4v-1c0-1.7 1.3-3 3-3h.5V8Z"/>
-          </svg>
-          <blockquote>{item.quote}</blockquote>
-          <div class="testi-author">
-            <span class="testi-avatar" aria-hidden="true">{item.author.split(' ').map((p) => p[0]).join('')}</span>
-            <div>
-              <strong>{item.author}</strong>
-              <span>{item.role}</span>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
+      <header class="testi-head reveal">
+        <span class="testi-pill">
+          <Icon name="lucide:heart" width="14" height="14" />
+          <span>{t.testimonials.eyebrow}</span>
+        </span>
+        <h2 id="testi-title">{t.testimonials.title}</h2>
+        {t.testimonials.subtitle && <p>{t.testimonials.subtitle}</p>}
+      </header>
+
+      <div class="testi-rows">
+        <ul class="testi-row testi-row-top">
+          {topRow.map((item, i) => (
+            <li class="testi-card reveal" style={`transition-delay: ${i * 70}ms`}>
+              <header class="testi-card-head">
+                <span class="testi-avatar" aria-hidden="true">
+                  {item.author.split(' ').map((p) => p[0]).join('').toUpperCase()}
+                </span>
+                <div class="testi-id">
+                  <strong>{item.author}</strong>
+                  <span class="testi-handle">{toHandle(item.author)}</span>
+                </div>
+              </header>
+              <blockquote>
+                <span class="testi-mention">{mention}</span>{' '}{item.quote}
+              </blockquote>
+              <span class="testi-role">{item.role}</span>
+            </li>
+          ))}
+        </ul>
+
+        <ul class="testi-row testi-row-bot">
+          {botRow.map((item, i) => (
+            <li class="testi-card reveal" style={`transition-delay: ${(i + 4) * 70}ms`}>
+              <header class="testi-card-head">
+                <span class="testi-avatar" aria-hidden="true">
+                  {item.author.split(' ').map((p) => p[0]).join('').toUpperCase()}
+                </span>
+                <div class="testi-id">
+                  <strong>{item.author}</strong>
+                  <span class="testi-handle">{toHandle(item.author)}</span>
+                </div>
+              </header>
+              <blockquote>
+                <span class="testi-mention">{mention}</span>{' '}{item.quote}
+              </blockquote>
+              <span class="testi-role">{item.role}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <style>
-  .testi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
-  }
-  .testi-card {
+  .testi {
     position: relative;
-    padding: var(--space-6);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
-    transition: border-color 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+
+  /* ALWAYS-DARK PANEL — independent of site theme */
+  .testi-panel {
+    position: relative;
+    border-radius: clamp(20px, 2.5vw, 32px);
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 3.5vw, 2.5rem) clamp(2rem, 5vw, 4rem);
+    background: #08080b;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  }
+
+  .testi-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Stars across the upper area */
+  .testi-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1.2px 1.2px at 6% 18%, rgba(255, 255, 255, 0.7), transparent 60%),
+      radial-gradient(1px 1px at 14% 8%, rgba(255, 255, 255, 0.5), transparent 60%),
+      radial-gradient(1.4px 1.4px at 22% 32%, rgba(255, 255, 255, 0.6), transparent 60%),
+      radial-gradient(1px 1px at 30% 12%, rgba(255, 255, 255, 0.45), transparent 60%),
+      radial-gradient(1px 1px at 42% 4%, rgba(255, 255, 255, 0.4), transparent 60%),
+      radial-gradient(1.3px 1.3px at 56% 22%, rgba(255, 255, 255, 0.55), transparent 60%),
+      radial-gradient(1px 1px at 70% 10%, rgba(255, 255, 255, 0.5), transparent 60%),
+      radial-gradient(1.2px 1.2px at 82% 28%, rgba(255, 255, 255, 0.6), transparent 60%),
+      radial-gradient(1px 1px at 92% 14%, rgba(255, 255, 255, 0.45), transparent 60%),
+      radial-gradient(1.5px 1.5px at 4% 44%, rgba(255, 255, 255, 0.65), transparent 60%),
+      radial-gradient(1px 1px at 96% 40%, rgba(255, 255, 255, 0.5), transparent 60%);
+    opacity: 0.85;
+  }
+
+  /* Earth-edge horizon: an enormous circle filled with panel bg, only its top arc
+     pokes into the view, with red glow extending upward from that arc. */
+  .testi-horizon {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    width: 240%;
+    aspect-ratio: 1 / 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #08080b;
+    box-shadow:
+      0 -1px 0 rgba(225, 29, 46, 0.85),
+      0 -8px 30px rgba(225, 29, 46, 0.45),
+      0 -30px 80px rgba(225, 29, 46, 0.25);
+  }
+
+  /* Soft elliptical glow centered on the horizon line */
+  .testi-glow {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    width: 70%;
+    height: 240px;
+    transform: translate(-50%, -100%);
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 100%,
+        rgba(225, 29, 46, 0.6) 0%,
+        rgba(225, 29, 46, 0.2) 40%,
+        transparent 70%);
+    filter: blur(22px);
+  }
+
+  /* Thin bright horizon line accent */
+  .testi-line {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    top: 38%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(225, 29, 46, 0.6) 30%, rgba(225, 29, 46, 0.6) 70%, transparent);
+  }
+
+  /* HEADER */
+  .testi-head {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto clamp(3rem, 6vw, 4.5rem);
+  }
+  .testi-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(180deg, rgba(225, 29, 46, 0.22), rgba(225, 29, 46, 0.08));
+    border: 1px solid rgba(225, 29, 46, 0.35);
+    color: #ff8a96;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    box-shadow: 0 6px 22px rgba(225, 29, 46, 0.25);
+  }
+  .testi-head h2 {
+    margin-top: var(--space-4);
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+  }
+  .testi-head p {
+    margin-top: var(--space-3);
+    font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* ROWS */
+  .testi-rows {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.85rem, 1.3vw, 1.2rem);
+  }
+  .testi-row {
+    display: grid;
+    gap: clamp(0.85rem, 1.3vw, 1.2rem);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .testi-row-top {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .testi-row-bot {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 78%;
+    margin-inline: auto;
+  }
+
+  /* CARD */
+  .testi-card {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1rem, 1.5vw, 1.35rem);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.005)),
+      rgba(15, 15, 19, 0.85);
+    transition: border-color 0.4s var(--ease-out), transform 0.4s var(--ease-out),
+      background 0.4s var(--ease-out);
   }
   .testi-card:hover {
     transform: translateY(-3px);
-    border-color: var(--accent-fade);
+    border-color: rgba(225, 29, 46, 0.3);
+    background:
+      linear-gradient(180deg, rgba(225, 29, 46, 0.06), rgba(255, 255, 255, 0.005)),
+      rgba(15, 15, 19, 0.95);
   }
-  .testi-quote {
-    color: var(--accent);
-    opacity: 0.5;
-    margin-bottom: var(--space-4);
-  }
-  blockquote {
-    font-size: 1.02rem;
-    line-height: 1.6;
-    color: var(--text);
-    margin-bottom: var(--space-5);
-  }
-  .testi-author {
+
+  .testi-card-head {
     display: flex;
     align-items: center;
     gap: var(--space-3);
+    margin-bottom: var(--space-3);
   }
   .testi-avatar {
-    width: 44px;
-    height: 44px;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-pill);
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+    background: linear-gradient(135deg, #ff3b4d 0%, #7f0e1a 100%);
     color: white;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 0.95rem;
-  }
-  .testi-author strong {
-    display: block;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .testi-author span {
     font-size: 0.82rem;
-    color: var(--text-mute);
+    box-shadow: 0 6px 16px rgba(225, 29, 46, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
-  @media (max-width: 980px) {
-    .testi-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
+  .testi-id {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    min-width: 0;
+  }
+  .testi-id strong {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: -0.005em;
+  }
+  .testi-handle {
+    font-family: var(--font-display);
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 2px;
+  }
+
+  blockquote {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0 0 var(--space-4) 0;
+  }
+  .testi-mention {
+    color: #ff8a96;
+    font-weight: 600;
+    margin-right: 2px;
+  }
+
+  .testi-role {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .testi-row-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .testi-row-bot {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
     }
+  }
+  @media (max-width: 560px) {
+    .testi-row-top,
+    .testi-row-bot { grid-template-columns: 1fr; }
+    .testi-line { left: 5%; right: 5%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testi-card,
+    .testi-card:hover { transform: none; }
   }
 </style>

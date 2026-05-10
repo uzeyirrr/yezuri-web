@@ -114,12 +114,12 @@
     "title": "Birlikte ürettiklerimiz",
     "subtitle": "Farklı sektörlerden seçilmiş vaka çalışmalarımız. Yakında daha fazlası eklenecek.",
     "items": [
-      { "title": "Lojistik SaaS Platformu", "category": "Yazılım Geliştirme", "metric": "+%240 verim artışı" },
-      { "title": "Perakende Veri Paneli", "category": "Veri Analitiği", "metric": "12 lokasyon canlı" },
-      { "title": "Banka Süreç Otomasyonu", "category": "RPA / Otomasyon", "metric": "320 saat / ay kazanım" },
-      { "title": "E-Ticaret Re-Platform", "category": "E-Ticaret", "metric": "+%180 dönüşüm" },
-      { "title": "Bulut Migration Projesi", "category": "Cloud / DevOps", "metric": "%65 maliyet düşüşü" },
-      { "title": "Mobil Saha Uygulaması", "category": "Mobil Geliştirme", "metric": "8.000+ aktif kullanıcı" }
+      { "title": "Lojistik SaaS Platformu", "category": "Yazılım Geliştirme", "metric": "+%240 verim artışı", "image": "/projects/logistics.jpg" },
+      { "title": "Perakende Veri Paneli", "category": "Veri Analitiği", "metric": "12 lokasyon canlı", "image": "/projects/analytics.jpg" },
+      { "title": "Banka Süreç Otomasyonu", "category": "RPA / Otomasyon", "metric": "320 saat / ay kazanım", "image": "/projects/banking.jpg" },
+      { "title": "E-Ticaret Re-Platform", "category": "E-Ticaret", "metric": "+%180 dönüşüm", "image": "/projects/ecommerce.jpg" },
+      { "title": "Bulut Migration Projesi", "category": "Cloud / DevOps", "metric": "%65 maliyet düşüşü", "image": "/projects/cloud.jpg" },
+      { "title": "Mobil Saha Uygulaması", "category": "Mobil Geliştirme", "metric": "8.000+ aktif kullanıcı", "image": "/projects/mobile-field.jpg" }
     ]
   },
   "clients": {
@@ -127,8 +127,9 @@
     "title": "Markaların güveni"
   },
   "testimonials": {
-    "eyebrow": "Müşteri Yorumları",
-    "title": "Bizimle çalışanlar ne diyor?",
+    "eyebrow": "Müşteri Sevgisi",
+    "title": "Kullananlar Yezuri'yi seviyor",
+    "subtitle": "Markamızla büyüyen yöneticilerin gerçek deneyimleri.",
     "items": [
       {
         "quote": "Yezuri ekibi, dönüşüm sürecimizi ezberden çıkarıp ölçülebilir bir yola koydu. Operasyonel verimlilik 2 katına çıktı.",
@@ -144,6 +145,26 @@
         "quote": "Sadece kod yazan bir ajans değil, gerçek bir stratejik ortak. Önerileri her zaman bizim için kazanç oldu.",
         "author": "E. Kaya",
         "role": "CTO, Fintech"
+      },
+      {
+        "quote": "Süreç otomasyonu sayesinde geri ofis ekibi stratejik işlere odaklandı. Dönüşüm tahmin ettiğimizden çok daha güçlü oldu.",
+        "author": "F. Şahin",
+        "role": "CFO, Üretim"
+      },
+      {
+        "quote": "Beklediğimizden hızlı, sözünü tuttuğundan emin olduğumuz bir ekip. Müşteri deneyimi puanımız %30 yükseldi.",
+        "author": "S. Aksoy",
+        "role": "Pazarlama Direktörü, E-Ticaret"
+      },
+      {
+        "quote": "Teknik derinlikleri işin diline tercüman oldu — BT ve iş birimleri ilk kez aynı tabloya bakıyor.",
+        "author": "B. Özkan",
+        "role": "BT Müdürü, Sigorta"
+      },
+      {
+        "quote": "Yol haritamız artık bir dilek listesi değil, ölçülebilir hedeflerle ilerleyen canlı bir plan.",
+        "author": "K. Tunç",
+        "role": "Genel Müdür, Sağlık"
       }
     ]
   },
