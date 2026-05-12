@@ -272,11 +272,12 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     transform: rotateX(calc(var(--i) * 90deg)) translateZ(0.53em);
-    color: var(--accent);
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hot) 60%);
+    color: var(--accent-hot);
+    background: linear-gradient(135deg, var(--accent-hot) 0%, #ffd0d4 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 24px var(--accent-glow);
   }
   @keyframes word-cube {
     0%,
