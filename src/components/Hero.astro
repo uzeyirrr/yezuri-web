@@ -227,13 +227,14 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     line-height: 1.02;
     letter-spacing: -0.045em;
     max-width: 17ch;
+    color: var(--text);
   }
   .hero-line {
     display: block;
   }
   .hero-line-tail {
     display: block;
-    color: var(--text-mute);
+    color: var(--text);
   }
 
   .word-rotator {
@@ -273,6 +274,9 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     -webkit-backface-visibility: hidden;
     transform: rotateX(calc(var(--i) * 90deg)) translateZ(0.53em);
     color: var(--accent-hot);
+    text-shadow:
+      0 0 18px var(--accent-glow),
+      0 0 40px var(--accent-fade);
   }
   @keyframes word-cube {
     0%,
@@ -301,7 +305,7 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     font-size: clamp(1.05rem, 1.6vw, 1.25rem);
     line-height: 1.55;
     max-width: 56ch;
-    color: var(--text-mute);
+    color: var(--text);
   }
 
   .hero-ctas {
