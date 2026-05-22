@@ -1,0 +1,777 @@
+---
+import LandingLayout from '~/layouts/LandingLayout.astro';
+import LeadForm from '~/components/LeadForm.astro';
+import { Icon } from 'astro-icon/components';
+import { whatsappLink } from '~/i18n/ui';
+
+const locale = 'tr' as const;
+const wa = whatsappLink('Merhaba, işletmem için ücretsiz dijital röntgen istiyorum.');
+
+const solutions = [
+  {
+    icon: 'lucide:database',
+    title: 'Müşteri verisi tek merkezde',
+    text: 'Telefon, isim, geçmiş alışveriş — hepsi tek panelde. WhatsApp uçsa bile dükkanınızın hafızası yerinde kalır.',
+  },
+  {
+    icon: 'lucide:bell-ring',
+    title: 'Otomatik hatırlatma & yeniden pazarlama',
+    text: 'Eski müşterilerinize doğru zamanda kendinizi hatırlatın. Kampanya, randevu, doğum günü — otomatik gitsin.',
+  },
+  {
+    icon: 'lucide:bot',
+    title: 'Reklam + web + operasyon otomasyonu',
+    text: 'Reklamı, web sitesini ve iş içi süreçleri yapay zeka desteğiyle tek yerden yönetin. Daha az emek, daha çok satış.',
+  },
+];
+
+const steps = [
+  {
+    num: '01',
+    icon: 'lucide:search',
+    title: 'Mevcut durum taraması',
+    text: 'Müşteri verinizi nerede, nasıl tuttuğunuza bakıyoruz. Nerede sızdırıyorsunuz, çıkarıyoruz.',
+  },
+  {
+    num: '02',
+    icon: 'lucide:map',
+    title: 'Veri & süreç haritası',
+    text: 'Hangi veriyi toplamalı, hangi süreci otomatikleştirmeli — işletmenize özel yol haritası.',
+  },
+  {
+    num: '03',
+    icon: 'lucide:rocket',
+    title: 'Otomasyon kurulumu',
+    text: 'CRM, otomatik hatırlatmalar, reklam ve web bağlantıları kuruluyor. Ekibiniz kullanmaya başlıyor.',
+  },
+  {
+    num: '04',
+    icon: 'lucide:trending-up',
+    title: 'Ölçüm & büyüme',
+    text: 'Geri dönen müşteri, artan satış ve düşen reklam maliyeti — sayılarla takip ediyoruz.',
+  },
+];
+
+const sectors = [
+  { icon: 'lucide:scissors', label: 'Güzellik & Kuaför' },
+  { icon: 'lucide:coffee', label: 'Kafe & Restoran' },
+  { icon: 'lucide:stethoscope', label: 'Klinik & Sağlık' },
+  { icon: 'lucide:shopping-bag', label: 'Perakende & Butik' },
+  { icon: 'lucide:dumbbell', label: 'Spor & Stüdyo' },
+  { icon: 'lucide:wrench', label: 'Servis & Atölye' },
+];
+---
+
+<LandingLayout
+  title="İşletmenizin Dijital Röntgeni — Müşteri Verinizi Kaybetmeyin | Yezuri"
+  description="Müşteri verileriniz WhatsApp'ta kaybolmasın. CRM, otomatik hatırlatma ve yapay zeka destekli müşteri yönetimiyle eski müşterilerinizi geri kazanın. Ücretsiz dijital röntgen alın."
+  locale={locale}
+  canonicalPath="/dijital-rontgen"
+  alternatePath="/dijital-rontgen"
+  noindex={true}
+>
+  <!-- 1. HERO -->
+  <section class="lp-hero">
+    <div class="lp-hero-bg" aria-hidden="true">
+      <span class="lp-orb lp-orb-1"></span>
+      <span class="lp-orb lp-orb-2"></span>
+      <span class="lp-hero-grid"></span>
+    </div>
+    <div class="container lp-hero-inner">
+      <span class="eyebrow reveal">KOBİ'ler için dijital dönüşüm</span>
+      <h1 class="lp-hero-title reveal">
+        Dükkanınızın hafızası <span class="lp-glow">WhatsApp'ın insafına</span> mı kalmış?
+      </h1>
+      <p class="lp-hero-sub reveal">
+        20 yıldır binlerce müşteriyle çalıştınız. Peki o insanların bilgisi, datası nerede?
+        Birazı telefonda, çoğu kaybolmuş. İşte tam burada para kaybediyorsunuz —
+        musluğu açık bırakıp altı delik kovayı doldurmaya çalışıyoruz.
+      </p>
+      <div class="lp-hero-ctas reveal">
+        <a class="btn btn-primary" href="#rontgen-form" data-magnetic>
+          Ücretsiz dijital röntgen iste
+          <Icon name="lucide:arrow-right" width="16" height="16" />
+        </a>
+        <a class="btn btn-ghost" href={wa} target="_blank" rel="noopener">WhatsApp'tan yaz</a>
+      </div>
+      <ul class="lp-hero-points reveal">
+        <li><Icon name="lucide:check" width="16" height="16" /> Ücretsiz ve bağlayıcı değil</li>
+        <li><Icon name="lucide:check" width="16" height="16" /> İşletmenize özel rapor</li>
+        <li><Icon name="lucide:check" width="16" height="16" /> 24 saat içinde dönüş</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 2. PROBLEM -->
+  <section class="lp-problem">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Acı gerçek</span>
+        <h2>Sürekli yeni müşteri arıyoruz, eskiyi unutuyoruz</h2>
+        <p>
+          Bir güzellik salonu düşünün: harıl harıl reklam veriyor, yeni müşteri arıyor.
+          Ama en son ne zaman eski müşterisiyle konuştuğunu bilmiyor. Bu yüzden büyüyemiyoruz.
+        </p>
+      </div>
+      <div class="lp-stat-grid">
+        <article class="lp-stat-card reveal">
+          <span class="lp-stat-num">%<span data-count="22">22</span></span>
+          <p>
+            Türkiye'de küçük ve orta ölçekli firmalarda CRM (müşteri yönetim sistemi)
+            kullanımı yalnızca <strong>%18–22</strong> civarında.
+          </p>
+        </article>
+        <article class="lp-stat-card reveal">
+          <span class="lp-stat-icon"><Icon name="lucide:droplet" width="22" height="22" /></span>
+          <h3>Delik kova</h3>
+          <p>
+            Ne fotoğraf çekiyoruz, ne numara kaydediyoruz. Gelen müşteri bir kez gelip gidiyor,
+            geri getirecek hiçbir bağ kurmuyoruz.
+          </p>
+        </article>
+        <article class="lp-stat-card reveal">
+          <span class="lp-stat-icon"><Icon name="lucide:message-circle-off" width="22" height="22" /></span>
+          <h3>WhatsApp'ın insafında</h3>
+          <p>
+            Yarın o WhatsApp uçup gitse, koca dükkanın hafızası siliniyor. Yıllarca biriken
+            data bir anda hikâye oluyor.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ÇÖZÜM -->
+  <section class="lp-solution">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Çözüm</span>
+        <h2>Müşteri ilişkilerini tek merkezden, yapay zeka desteğiyle yönetin</h2>
+        <p>
+          Dijitalleşmek sadece e-ticaret yapmak değil. Kafenize gelen, restoranınıza oturan
+          müşterinin bile datasını tutup, düzenli aralıklarla kendinizi hatırlatabilirsiniz.
+        </p>
+      </div>
+      <div class="lp-sol-grid">
+        {solutions.map((s) => (
+          <article class="lp-sol-card reveal">
+            <span class="lp-sol-icon"><Icon name={s.icon} width="22" height="22" /></span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ESKİ MÜŞTERİ = UCUZ & KÂRLI -->
+  <section class="lp-retention">
+    <div class="container lp-retention-inner">
+      <div class="lp-retention-copy reveal">
+        <span class="eyebrow">Matematik basit</span>
+        <h2>Eski müşteriye hatırlatmak, yeni müşteri avlamaktan çok daha kârlı</h2>
+        <p>
+          Kendini hatırlatmak hem daha ucuz hem daha karlı. Elinizdeki datayı kullanın;
+          aynı reklam bütçesiyle çok daha fazla satış yapın.
+        </p>
+        <a class="btn btn-primary" href="#rontgen-form" data-magnetic>
+          Datamı nasıl kullanırım, gösterin
+          <Icon name="lucide:arrow-right" width="16" height="16" />
+        </a>
+      </div>
+      <div class="lp-compare reveal">
+        <div class="lp-compare-col lp-compare-bad">
+          <span class="lp-compare-tag">Şu anki yöntem</span>
+          <ul>
+            <li><Icon name="lucide:x" width="16" height="16" /> Sürekli yeni müşteri reklamı</li>
+            <li><Icon name="lucide:x" width="16" height="16" /> Yüksek reklam maliyeti</li>
+            <li><Icon name="lucide:x" width="16" height="16" /> Bir kez gelen, bir daha gelmeyen müşteri</li>
+            <li><Icon name="lucide:x" width="16" height="16" /> Kaybolan data</li>
+          </ul>
+        </div>
+        <div class="lp-compare-col lp-compare-good">
+          <span class="lp-compare-tag lp-compare-tag-good">Yezuri ile</span>
+          <ul>
+            <li><Icon name="lucide:check" width="16" height="16" /> Eski müşteriye otomatik hatırlatma</li>
+            <li><Icon name="lucide:check" width="16" height="16" /> Daha düşük maliyet, daha çok ciro</li>
+            <li><Icon name="lucide:check" width="16" height="16" /> Geri dönen, sadık müşteri</li>
+            <li><Icon name="lucide:check" width="16" height="16" /> Veri tek merkezde, güvende</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. NASIL ÇALIŞIR -->
+  <section class="lp-process">
+    <div class="lp-process-bg" aria-hidden="true">
+      <span class="lp-process-blob lp-process-blob-1"></span>
+      <span class="lp-process-blob lp-process-blob-2"></span>
+      <span class="lp-process-grid"></span>
+    </div>
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Nasıl çalışır</span>
+        <h2>"Dijital röntgen" 4 adımda</h2>
+        <p>İşletmenizin nerede sızdırdığını çıkarıp, büyümeyi otomatiğe bağlıyoruz.</p>
+      </div>
+      <ol class="lp-steps reveal">
+        {steps.map((step, i) => (
+          <li class="lp-step">
+            <div class="lp-step-top">
+              <span class="lp-step-num">{step.num}</span>
+              <span class="lp-step-icon"><Icon name={step.icon} width="20" height="20" /></span>
+            </div>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+            <span class="lp-step-rule" aria-hidden="true">
+              {i + 1 < steps.length && <Icon name="lucide:arrow-right" width="14" height="14" />}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 6. KİME UYGUN -->
+  <section class="lp-sectors">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Kime uygun?</span>
+        <h2>Müşterisiyle yüz yüze çalışan her işletmeye</h2>
+        <p>Datayı tutmaya başladığınız an kazanmaya başlarsınız.</p>
+      </div>
+      <ul class="lp-sector-grid reveal">
+        {sectors.map((s) => (
+          <li class="lp-sector-chip">
+            <Icon name={s.icon} width="20" height="20" />
+            <span>{s.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. FINAL CTA + FORM -->
+  <section id="rontgen-form" class="lp-cta">
+    <div class="container">
+      <div class="lp-cta-card reveal">
+        <div class="lp-cta-shape" aria-hidden="true"></div>
+        <div class="lp-cta-grid">
+          <div class="lp-cta-copy">
+            <span class="eyebrow">Ücretsiz</span>
+            <h2>İşletmenizin dijital röntgenini çekelim</h2>
+            <p>
+              Bu yarışta geride kalıp yok olmak istemiyorsanız; reklamı, web sitesini ve en
+              önemlisi iş içi operasyonları otomatikleştirmek zorundasınız. Formu doldurun,
+              işletmenize özel ücretsiz raporunuzu çıkaralım.
+            </p>
+            <ul class="lp-cta-list">
+              <li><Icon name="lucide:check" width="16" height="16" /> Müşteri verinizin durum analizi</li>
+              <li><Icon name="lucide:check" width="16" height="16" /> Otomasyon ve geri kazanım önerileri</li>
+              <li><Icon name="lucide:check" width="16" height="16" /> Net, uygulanabilir bir yol haritası</li>
+            </ul>
+            <a class="btn btn-whatsapp lp-cta-wa" href={wa} target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"
+                ><path
+                  d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.44 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01Zm-7.01 15.24a8.21 8.21 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.18 8.18 0 0 1 8.23 8.24c0 4.54-3.7 8.24-8.23 8.24Z"
+                ></path></svg
+              >
+              WhatsApp'tan ulaşmak isterim
+            </a>
+          </div>
+          <div class="lp-cta-form">
+            <LeadForm />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</LandingLayout>
+
+<style>
+  /* ---------- HERO ---------- */
+  .lp-hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-block: clamp(4rem, 11vw, 8rem) clamp(3.5rem, 9vw, 7rem);
+  }
+  .lp-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+  .lp-orb {
+    position: absolute;
+    width: 65vmax;
+    height: 65vmax;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.5;
+  }
+  .lp-orb-1 {
+    top: -30%;
+    right: -20%;
+    background: radial-gradient(circle, var(--accent), transparent 60%);
+  }
+  .lp-orb-2 {
+    bottom: -35%;
+    left: -20%;
+    background: radial-gradient(circle, var(--accent-deep), transparent 60%);
+    opacity: 0.4;
+  }
+  :root[data-theme='light'] .lp-orb {
+    opacity: 0.3;
+  }
+  .lp-hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 35%, black 0%, transparent 75%);
+  }
+  .lp-hero-inner {
+    max-width: var(--container);
+  }
+  .lp-hero-title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.3rem, 5.6vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    max-width: 18ch;
+  }
+  .lp-glow {
+    color: var(--accent);
+    text-shadow: 0 0 28px var(--accent-glow);
+  }
+  .lp-hero-sub {
+    margin-top: var(--space-5);
+    max-width: 60ch;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-mute);
+  }
+  .lp-hero-ctas {
+    margin-top: var(--space-6);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+  .lp-hero-points {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+  }
+  .lp-hero-points li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--text-mute);
+  }
+  .lp-hero-points svg {
+    color: var(--accent);
+  }
+
+  /* ---------- shared section helpers ---------- */
+  .lp-problem .section-head,
+  .lp-solution .section-head,
+  .lp-process .section-head,
+  .lp-sectors .section-head {
+    max-width: 760px;
+  }
+
+  /* ---------- PROBLEM ---------- */
+  .lp-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .lp-stat-card {
+    padding: clamp(1.5rem, 2.4vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--surface-glass), transparent), var(--bg-elev);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .lp-stat-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.8rem, 5vw, 3.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(180deg, var(--accent-hot), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lp-stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-mute);
+    color: var(--accent);
+    border: 1px solid var(--accent-fade);
+  }
+  .lp-stat-card h3 {
+    font-size: 1.15rem;
+  }
+  .lp-stat-card p strong {
+    color: var(--text);
+  }
+
+  /* ---------- SOLUTION ---------- */
+  .lp-sol-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+  }
+  .lp-sol-card {
+    padding: clamp(1.5rem, 2.4vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out),
+      box-shadow 0.35s var(--ease-out);
+  }
+  .lp-sol-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-fade);
+    box-shadow: var(--shadow-md);
+  }
+  .lp-sol-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: white;
+    box-shadow: var(--shadow-accent);
+  }
+  .lp-sol-card h3 {
+    font-size: 1.2rem;
+  }
+
+  /* ---------- RETENTION ---------- */
+  .lp-retention-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .lp-retention-copy h2 {
+    margin-top: var(--space-4);
+  }
+  .lp-retention-copy p {
+    margin-top: var(--space-4);
+    max-width: 48ch;
+  }
+  .lp-retention-copy .btn {
+    margin-top: var(--space-6);
+  }
+  .lp-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+  .lp-compare-col {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+  }
+  .lp-compare-good {
+    border-color: var(--accent-fade);
+    background: linear-gradient(180deg, var(--accent-mute), transparent), var(--bg-elev);
+  }
+  .lp-compare-tag {
+    display: inline-flex;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: var(--space-4);
+  }
+  .lp-compare-tag-good {
+    color: var(--accent);
+  }
+  .lp-compare-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .lp-compare-col li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    color: var(--text-mute);
+    line-height: 1.4;
+  }
+  .lp-compare-col li svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .lp-compare-bad li svg {
+    color: var(--text-dim);
+  }
+  .lp-compare-good li svg {
+    color: var(--accent);
+  }
+
+  /* ---------- PROCESS ---------- */
+  .lp-process {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .lp-process-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .lp-process-blob {
+    position: absolute;
+    width: 55vmax;
+    height: 55vmax;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: 0.18;
+  }
+  .lp-process-blob-1 {
+    top: -25%;
+    left: -15%;
+    background: radial-gradient(circle, var(--accent-deep), transparent 60%);
+  }
+  .lp-process-blob-2 {
+    bottom: -30%;
+    right: -15%;
+    background: radial-gradient(circle, var(--accent), transparent 60%);
+    opacity: 0.12;
+  }
+  :root[data-theme='light'] .lp-process-blob {
+    opacity: 0.07;
+  }
+  .lp-process-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 50%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 50%, black 0%, transparent 75%);
+    opacity: 0.5;
+  }
+  .lp-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.85rem, 1.4vw, 1.25rem);
+  }
+  .lp-step {
+    position: relative;
+    padding: clamp(1.25rem, 1.8vw, 1.75rem);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--surface-glass), transparent), var(--bg-elev);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: transform 0.35s var(--ease-out), border-color 0.35s var(--ease-out);
+  }
+  .lp-step:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-fade);
+  }
+  .lp-step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .lp-step-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    background: linear-gradient(180deg, var(--accent-hot), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lp-step-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-mute);
+    color: var(--accent);
+    border: 1px solid var(--accent-fade);
+  }
+  .lp-step h3 {
+    font-size: 1.05rem;
+  }
+  .lp-step p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  .lp-step-rule {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--accent);
+    opacity: 0.6;
+    min-height: 22px;
+  }
+
+  /* ---------- SECTORS ---------- */
+  .lp-sector-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .lp-sector-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface-glass);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.98rem;
+    color: var(--text);
+    transition: border-color 0.3s var(--ease-out), background 0.3s var(--ease-out);
+  }
+  .lp-sector-chip:hover {
+    border-color: var(--accent-fade);
+    background: var(--surface-glass-hover);
+  }
+  .lp-sector-chip svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ---------- FINAL CTA + FORM ---------- */
+  .lp-cta {
+    scroll-margin-top: 90px;
+  }
+  .lp-cta-card {
+    position: relative;
+    padding: clamp(2rem, 5vw, 4rem);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    background: linear-gradient(140deg, var(--bg-elev) 0%, var(--bg-elev-2) 100%);
+    isolation: isolate;
+  }
+  .lp-cta-shape {
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    background:
+      radial-gradient(600px circle at 85% 5%, var(--accent-glow), transparent 50%),
+      radial-gradient(500px circle at 5% 95%, rgba(127, 14, 26, 0.4), transparent 50%);
+    opacity: 0.6;
+  }
+  .lp-cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .lp-cta-copy h2 {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+  }
+  .lp-cta-copy > p {
+    margin-top: var(--space-4);
+    max-width: 52ch;
+  }
+  .lp-cta-list {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .lp-cta-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+  .lp-cta-list svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .lp-cta-wa {
+    margin-top: var(--space-6);
+  }
+  .lp-cta-form {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px) {
+    .lp-stat-grid,
+    .lp-sol-grid,
+    .lp-sector-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .lp-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .lp-retention-inner,
+    .lp-cta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .lp-stat-grid,
+    .lp-sol-grid,
+    .lp-sector-grid,
+    .lp-steps,
+    .lp-compare {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lp-sol-card,
+    .lp-sol-card:hover,
+    .lp-step,
+    .lp-step:hover {
+      transform: none;
+    }
+  }
+</style>

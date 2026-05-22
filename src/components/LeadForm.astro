@@ -1,0 +1,57 @@
+---
+// Yezuri CRM gömülü formu. Tüm lead formları bu tek kaynağı kullanır.
+// Form alanlarını/akışını CRM tarafından (crm.yezuri.com) yönetin.
+const FORM_SRC = 'https://crm.yezuri.com/forms/wtl/2f6388c93385ae32846155b9b56b7cb5';
+---
+
+<div class="lead">
+  <iframe
+    class="lead-frame"
+    data-crm-frame
+    src={FORM_SRC}
+    title="İşletmenizin dijital röntgeni — başvuru formu"
+    loading="lazy"
+    sandbox="allow-top-navigation allow-forms allow-scripts allow-same-origin allow-popups"
+    allowfullscreen></iframe>
+</div>
+
+<script>
+  // Auto-resize: CRM postMessage ile yükseklik gönderirse iframe'i ona göre ayarlar.
+  // Göndermezse aşağıdaki CSS fallback yüksekliği kullanılır.
+  const frame = document.querySelector<HTMLIFrameElement>('[data-crm-frame]');
+  if (frame) {
+    window.addEventListener('message', (e: MessageEvent) => {
+      if (e.origin !== 'https://crm.yezuri.com') return;
+      const d = e.data as unknown;
+      let h: number | undefined;
+      if (typeof d === 'number') {
+        h = d;
+      } else if (d && typeof d === 'object') {
+        const o = d as Record<string, unknown>;
+        const cand = o.height ?? o.frameHeight ?? o.value;
+        if (typeof cand === 'number') h = cand;
+      }
+      if (typeof h === 'number' && h > 200) frame.style.height = `${h}px`;
+    });
+  }
+</script>
+
+<style>
+  .lead {
+    width: 100%;
+  }
+  .lead-frame {
+    display: block;
+    width: 100%;
+    /* Formu tam saracak yükseklik. CRM auto-resize göndermediği için sabit.
+       Altta boşluk kalırsa azaltın, form kırpılırsa artırın — tek değer. */
+    height: 460px;
+    border: 0;
+    background: #fff;
+  }
+  @media (max-width: 560px) {
+    .lead-frame {
+      height: 540px;
+    }
+  }
+</style>
