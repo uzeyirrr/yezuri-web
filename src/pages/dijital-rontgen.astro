@@ -181,21 +181,31 @@ const sectors = [
       </div>
       <div class="lp-compare reveal">
         <div class="lp-compare-col lp-compare-bad">
-          <span class="lp-compare-tag">Şu anki yöntem</span>
+          <header class="lp-compare-head">
+            <span class="lp-compare-ico"><Icon name="lucide:trending-down" width="18" height="18" /></span>
+            <span class="lp-compare-tag">Şu anki yöntem</span>
+          </header>
           <ul>
-            <li><Icon name="lucide:x" width="16" height="16" /> Sürekli yeni müşteri reklamı</li>
-            <li><Icon name="lucide:x" width="16" height="16" /> Yüksek reklam maliyeti</li>
-            <li><Icon name="lucide:x" width="16" height="16" /> Bir kez gelen, bir daha gelmeyen müşteri</li>
-            <li><Icon name="lucide:x" width="16" height="16" /> Kaybolan data</li>
+            <li><span class="lp-li-ico"><Icon name="lucide:x" width="13" height="13" /></span> Sürekli yeni müşteri reklamı</li>
+            <li><span class="lp-li-ico"><Icon name="lucide:x" width="13" height="13" /></span> Yüksek reklam maliyeti</li>
+            <li><span class="lp-li-ico"><Icon name="lucide:x" width="13" height="13" /></span> Bir kez gelen, bir daha gelmeyen müşteri</li>
+            <li><span class="lp-li-ico"><Icon name="lucide:x" width="13" height="13" /></span> Kaybolan data</li>
           </ul>
         </div>
+
+        <span class="lp-compare-vs" aria-hidden="true">VS</span>
+
         <div class="lp-compare-col lp-compare-good">
-          <span class="lp-compare-tag lp-compare-tag-good">Yezuri ile</span>
+          <span class="lp-compare-badge">Önerilen</span>
+          <header class="lp-compare-head">
+            <span class="lp-compare-ico lp-compare-ico-good"><Icon name="lucide:trending-up" width="18" height="18" /></span>
+            <span class="lp-compare-tag lp-compare-tag-good">Yezuri ile</span>
+          </header>
           <ul>
-            <li><Icon name="lucide:check" width="16" height="16" /> Eski müşteriye otomatik hatırlatma</li>
-            <li><Icon name="lucide:check" width="16" height="16" /> Daha düşük maliyet, daha çok ciro</li>
-            <li><Icon name="lucide:check" width="16" height="16" /> Geri dönen, sadık müşteri</li>
-            <li><Icon name="lucide:check" width="16" height="16" /> Veri tek merkezde, güvende</li>
+            <li><span class="lp-li-ico lp-li-ico-good"><Icon name="lucide:check" width="13" height="13" /></span> Eski müşteriye otomatik hatırlatma</li>
+            <li><span class="lp-li-ico lp-li-ico-good"><Icon name="lucide:check" width="13" height="13" /></span> Daha düşük maliyet, daha çok ciro</li>
+            <li><span class="lp-li-ico lp-li-ico-good"><Icon name="lucide:check" width="13" height="13" /></span> Geri dönen, sadık müşteri</li>
+            <li><span class="lp-li-ico lp-li-ico-good"><Icon name="lucide:check" width="13" height="13" /></span> Veri tek merkezde, güvende</li>
           </ul>
         </div>
       </div>
@@ -487,29 +497,73 @@ const sectors = [
     margin-top: var(--space-6);
   }
   .lp-compare {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-4);
+    gap: var(--space-5);
+    align-items: start;
   }
   .lp-compare-col {
-    padding: var(--space-5);
+    position: relative;
+    padding: clamp(1.35rem, 2vw, 1.85rem);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     background: var(--bg-elev);
   }
+  .lp-compare-bad {
+    background: var(--bg-elev-2);
+  }
   .lp-compare-good {
-    border-color: var(--accent-fade);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
     background: linear-gradient(180deg, var(--accent-mute), transparent), var(--bg-elev);
+    box-shadow: var(--shadow-accent);
+  }
+  .lp-compare-badge {
+    position: absolute;
+    top: -11px;
+    right: 18px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 16px var(--accent-glow);
+  }
+  .lp-compare-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px dashed var(--border);
+  }
+  .lp-compare-ico {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elev-3);
+    color: var(--text-dim);
+  }
+  .lp-compare-ico-good {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 16px var(--accent-glow);
   }
   .lp-compare-tag {
-    display: inline-flex;
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-dim);
-    margin-bottom: var(--space-4);
   }
   .lp-compare-tag-good {
     color: var(--accent);
@@ -522,20 +576,50 @@ const sectors = [
   .lp-compare-col li {
     display: flex;
     align-items: flex-start;
-    gap: var(--space-2);
-    font-size: 0.9rem;
+    gap: var(--space-3);
+    font-size: 0.92rem;
+    line-height: 1.45;
     color: var(--text-mute);
-    line-height: 1.4;
   }
-  .lp-compare-col li svg {
+  .lp-li-ico {
     flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .lp-compare-bad li svg {
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(120, 120, 130, 0.14);
     color: var(--text-dim);
   }
-  .lp-compare-good li svg {
-    color: var(--accent);
+  .lp-li-ico-good {
+    background: var(--accent);
+    color: #fff;
+  }
+  .lp-compare-good li {
+    color: var(--text);
+  }
+  .lp-compare-vs {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-base);
+    border: 1px solid var(--border-strong);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--text-mute);
+    box-shadow: var(--shadow-md);
   }
 
   /* ---------- PROCESS ---------- */
@@ -763,6 +847,9 @@ const sectors = [
     .lp-steps,
     .lp-compare {
       grid-template-columns: 1fr;
+    }
+    .lp-compare-vs {
+      display: none;
     }
   }
 
