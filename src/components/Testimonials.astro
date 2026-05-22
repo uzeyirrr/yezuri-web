@@ -9,103 +9,98 @@ export interface Props {
 const { locale } = Astro.props;
 const t = getDictionary(locale);
 
-const toHandle = (name: string) =>
-  '@' +
+const initials = (name: string) =>
   name
-    .toLocaleLowerCase('tr-TR')
-    .replace(/ı/g, 'i')
-    .replace(/ş/g, 's')
-    .replace(/ç/g, 'c')
-    .replace(/ğ/g, 'g')
-    .replace(/ü/g, 'u')
-    .replace(/ö/g, 'o')
-    .replace(/[.\s]+/g, '');
+    .split(' ')
+    .map((p) => p[0])
+    .join('')
+    .toUpperCase();
 
 const items = t.testimonials.items;
-const topRow = items.slice(0, 4);
-const botRow = items.slice(4, 7);
 const mention = '@yezuri';
+
+// Kusursuz sonsuz döngü için her satır iki kopya içerir (translateX(-50%) tam denk gelir).
+// İkinci satır farklı sıra + zıt yönde akar.
+const baseA = items;
+const baseB = [...items].reverse();
+const rowA = [...baseA, ...baseA];
+const rowB = [...baseB, ...baseB];
 ---
 
 <section class="testi" aria-labelledby="testi-title">
-  <div class="container">
-    <div class="testi-panel">
-      <div class="testi-bg" aria-hidden="true">
-        <span class="testi-stars"></span>
-        <span class="testi-horizon"></span>
-        <span class="testi-glow"></span>
-        <span class="testi-line"></span>
-      </div>
+  <div class="testi-bg" aria-hidden="true">
+    <span class="testi-stars"></span>
+    <span class="testi-horizon"></span>
+    <span class="testi-glow"></span>
+  </div>
 
-      <header class="testi-head reveal">
-        <span class="testi-pill">
-          <Icon name="lucide:heart" width="14" height="14" />
-          <span>{t.testimonials.eyebrow}</span>
-        </span>
-        <h2 id="testi-title">{t.testimonials.title}</h2>
-        {t.testimonials.subtitle && <p>{t.testimonials.subtitle}</p>}
-      </header>
+  <div class="container testi-inner">
+    <header class="testi-head reveal">
+      <span class="testi-pill">
+        <Icon name="lucide:heart" width="14" height="14" />
+        <span>{t.testimonials.eyebrow}</span>
+      </span>
+      <h2 id="testi-title">{t.testimonials.title}</h2>
+      {t.testimonials.subtitle && <p>{t.testimonials.subtitle}</p>}
+    </header>
+  </div>
 
-      <div class="testi-rows">
-        <ul class="testi-row testi-row-top">
-          {topRow.map((item, i) => (
-            <li class="testi-card reveal" style={`transition-delay: ${i * 70}ms`}>
-              <header class="testi-card-head">
-                <span class="testi-avatar" aria-hidden="true">
-                  {item.author.split(' ').map((p) => p[0]).join('').toUpperCase()}
-                </span>
-                <div class="testi-id">
-                  <strong>{item.author}</strong>
-                  <span class="testi-handle">{toHandle(item.author)}</span>
-                </div>
-              </header>
-              <blockquote>
-                <span class="testi-mention">{mention}</span>{' '}{item.quote}
-              </blockquote>
-              <span class="testi-role">{item.role}</span>
-            </li>
-          ))}
-        </ul>
+  <div class="testi-rows">
+    <div class="testi-marquee">
+      <ul class="testi-track testi-track-a">
+        {rowA.map((item, i) => (
+          <li class="testi-card" aria-hidden={i >= baseA.length ? 'true' : undefined}>
+            <div class="testi-rating" aria-hidden="true">★★★★★</div>
+            <blockquote>
+              <span class="testi-mention">{mention}</span>{' '}{item.quote}
+            </blockquote>
+            <footer class="testi-person">
+              <span class="testi-avatar" aria-hidden="true">{initials(item.author)}</span>
+              <div class="testi-id">
+                <strong>{item.author}</strong>
+                <span class="testi-role">{item.role}</span>
+              </div>
+            </footer>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-        <ul class="testi-row testi-row-bot">
-          {botRow.map((item, i) => (
-            <li class="testi-card reveal" style={`transition-delay: ${(i + 4) * 70}ms`}>
-              <header class="testi-card-head">
-                <span class="testi-avatar" aria-hidden="true">
-                  {item.author.split(' ').map((p) => p[0]).join('').toUpperCase()}
-                </span>
-                <div class="testi-id">
-                  <strong>{item.author}</strong>
-                  <span class="testi-handle">{toHandle(item.author)}</span>
-                </div>
-              </header>
-              <blockquote>
-                <span class="testi-mention">{mention}</span>{' '}{item.quote}
-              </blockquote>
-              <span class="testi-role">{item.role}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div class="testi-marquee">
+      <ul class="testi-track testi-track-b">
+        {rowB.map((item, i) => (
+          <li class="testi-card" aria-hidden={i >= baseB.length ? 'true' : undefined}>
+            <div class="testi-rating" aria-hidden="true">★★★★★</div>
+            <blockquote>
+              <span class="testi-mention">{mention}</span>{' '}{item.quote}
+            </blockquote>
+            <footer class="testi-person">
+              <span class="testi-avatar" aria-hidden="true">{initials(item.author)}</span>
+              <div class="testi-id">
+                <strong>{item.author}</strong>
+                <span class="testi-role">{item.role}</span>
+              </div>
+            </footer>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
+  /* FULL-WIDTH ALWAYS-DARK SECTION — independent of site theme */
   .testi {
     position: relative;
-  }
-
-  /* ALWAYS-DARK PANEL — independent of site theme */
-  .testi-panel {
-    position: relative;
-    border-radius: clamp(20px, 2.5vw, 32px);
-    padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 3.5vw, 2.5rem) clamp(2rem, 5vw, 4rem);
     background: #08080b;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-block: 1px solid rgba(255, 255, 255, 0.06);
     overflow: hidden;
     isolation: isolate;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  }
+
+  .testi-inner {
+    position: relative;
+    z-index: 2;
   }
 
   .testi-bg {
@@ -134,7 +129,7 @@ const mention = '@yezuri';
     opacity: 0.85;
   }
 
-  /* Earth-edge horizon: an enormous circle filled with panel bg, only its top arc
+  /* Earth-edge horizon: an enormous circle filled with section bg, only its top arc
      pokes into the view, with red glow extending upward from that arc. */
   .testi-horizon {
     position: absolute;
@@ -165,16 +160,6 @@ const mention = '@yezuri';
         rgba(225, 29, 46, 0.2) 40%,
         transparent 70%);
     filter: blur(22px);
-  }
-
-  /* Thin bright horizon line accent */
-  .testi-line {
-    position: absolute;
-    left: 15%;
-    right: 15%;
-    top: 38%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(225, 29, 46, 0.6) 30%, rgba(225, 29, 46, 0.6) 70%, transparent);
   }
 
   /* HEADER */
@@ -213,61 +198,124 @@ const mention = '@yezuri';
     color: rgba(255, 255, 255, 0.6);
   }
 
-  /* ROWS */
+  /* MARQUEE ROWS — full width, auto-scrolling, infinite loop */
   .testi-rows {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: clamp(0.85rem, 1.3vw, 1.2rem);
+    gap: clamp(0.9rem, 1.3vw, 1.25rem);
   }
-  .testi-row {
-    display: grid;
-    gap: clamp(0.85rem, 1.3vw, 1.2rem);
+  .testi-marquee {
+    position: relative;
+    overflow: hidden;
+    padding-block: 16px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  }
+  .testi-track {
+    display: flex;
+    width: max-content;
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    animation: testi-marquee 48s linear infinite;
+    will-change: transform;
   }
-  .testi-row-top {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .testi-track-b {
+    animation-duration: 62s;
+    animation-direction: reverse;
   }
-  .testi-row-bot {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 78%;
-    margin-inline: auto;
+  .testi-marquee:hover .testi-track {
+    animation-play-state: paused;
+  }
+  @keyframes testi-marquee {
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   /* CARD */
   .testi-card {
+    flex: 0 0 auto;
+    width: clamp(270px, 23vw, 340px);
+    margin-right: clamp(0.9rem, 1.3vw, 1.25rem);
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding: clamp(1rem, 1.5vw, 1.35rem);
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    gap: var(--space-3);
+    padding: clamp(1.35rem, 1.9vw, 1.7rem);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.005)),
-      rgba(15, 15, 19, 0.85);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015)),
+      rgba(17, 17, 22, 0.9);
+    overflow: hidden;
+    isolation: isolate;
     transition: border-color 0.4s var(--ease-out), transform 0.4s var(--ease-out),
-      background 0.4s var(--ease-out);
+      box-shadow 0.4s var(--ease-out), background 0.4s var(--ease-out);
+  }
+  /* decorative quote glyph behind content */
+  .testi-card::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.18em;
+    right: 0.1em;
+    z-index: -1;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 5.5rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.1;
+    pointer-events: none;
   }
   .testi-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(225, 29, 46, 0.3);
+    transform: translateY(-4px);
+    border-color: rgba(225, 29, 46, 0.4);
     background:
-      linear-gradient(180deg, rgba(225, 29, 46, 0.06), rgba(255, 255, 255, 0.005)),
-      rgba(15, 15, 19, 0.95);
+      linear-gradient(180deg, rgba(225, 29, 46, 0.08), rgba(255, 255, 255, 0.015)),
+      rgba(20, 16, 18, 0.95);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+  }
+  .testi-card:hover::before {
+    opacity: 0.18;
   }
 
-  .testi-card-head {
+  .testi-rating {
+    display: inline-flex;
+    gap: 1px;
+    color: var(--accent);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    filter: drop-shadow(0 0 8px rgba(225, 29, 46, 0.45));
+  }
+
+  .testi-card blockquote {
+    flex: 1;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .testi-mention {
+    color: #ff8a96;
+    font-weight: 600;
+    margin-right: 2px;
+  }
+
+  .testi-person {
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    margin-bottom: var(--space-3);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
   .testi-avatar {
     flex-shrink: 0;
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     border-radius: var(--radius-pill);
     background: linear-gradient(135deg, #ff3b4d 0%, #7f0e1a 100%);
     color: white;
@@ -276,67 +324,104 @@ const mention = '@yezuri';
     justify-content: center;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 0.82rem;
-    box-shadow: 0 6px 16px rgba(225, 29, 46, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    font-size: 0.88rem;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 6px 16px rgba(225, 29, 46, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   }
   .testi-id {
     display: flex;
     flex-direction: column;
-    line-height: 1.2;
+    line-height: 1.25;
     min-width: 0;
   }
   .testi-id strong {
     color: #ffffff;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     letter-spacing: -0.005em;
   }
-  .testi-handle {
+  .testi-role {
     font-family: var(--font-display);
-    font-size: 0.76rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: rgba(255, 255, 255, 0.45);
     margin-top: 2px;
   }
 
-  blockquote {
-    font-size: 0.9rem;
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.72);
-    margin: 0 0 var(--space-4) 0;
+  /* LIGHT MODE — koyu bandı açık temaya uyarla */
+  :root[data-theme='light'] .testi {
+    background: var(--bg-elev-2);
+    border-block-color: var(--border);
   }
-  .testi-mention {
-    color: #ff8a96;
-    font-weight: 600;
-    margin-right: 2px;
+  :root[data-theme='light'] .testi-stars {
+    opacity: 0;
   }
-
-  .testi-role {
-    margin-top: auto;
-    padding-top: var(--space-3);
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
-    font-family: var(--font-display);
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.42);
+  :root[data-theme='light'] .testi-horizon {
+    background: var(--bg-elev-2);
+    box-shadow:
+      0 -1px 0 rgba(209, 22, 38, 0.7),
+      0 -8px 30px rgba(209, 22, 38, 0.22),
+      0 -30px 80px rgba(209, 22, 38, 0.1);
+  }
+  :root[data-theme='light'] .testi-glow {
+    opacity: 0.45;
+  }
+  :root[data-theme='light'] .testi-head h2 {
+    color: var(--text);
+  }
+  :root[data-theme='light'] .testi-head p {
+    color: var(--text-mute);
+  }
+  :root[data-theme='light'] .testi-pill {
+    color: var(--accent);
+    background: linear-gradient(180deg, rgba(209, 22, 38, 0.12), rgba(209, 22, 38, 0.04));
+    border-color: rgba(209, 22, 38, 0.3);
+    box-shadow: 0 6px 22px rgba(209, 22, 38, 0.12);
+  }
+  :root[data-theme='light'] .testi-card {
+    border-color: var(--border);
+    background: linear-gradient(180deg, #ffffff, #fbfaf7);
+    box-shadow: var(--shadow-sm);
+  }
+  :root[data-theme='light'] .testi-card:hover {
+    border-color: rgba(209, 22, 38, 0.35);
+    background: #ffffff;
+    box-shadow: var(--shadow-md);
+  }
+  :root[data-theme='light'] .testi-card blockquote {
+    color: var(--text-mute);
+  }
+  :root[data-theme='light'] .testi-mention {
+    color: var(--accent);
+  }
+  :root[data-theme='light'] .testi-person {
+    border-top-color: var(--border);
+  }
+  :root[data-theme='light'] .testi-id strong {
+    color: var(--text);
+  }
+  :root[data-theme='light'] .testi-role {
+    color: var(--text-dim);
   }
 
   /* RESPONSIVE */
-  @media (max-width: 1100px) {
-    .testi-row-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .testi-row-bot {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      width: 100%;
-    }
-  }
   @media (max-width: 560px) {
-    .testi-row-top,
-    .testi-row-bot { grid-template-columns: 1fr; }
-    .testi-line { left: 5%; right: 5%; }
+    .testi-card {
+      width: clamp(260px, 80vw, 320px);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .testi-track {
+      animation: none;
+    }
+    .testi-marquee {
+      overflow-x: auto;
+    }
     .testi-card,
-    .testi-card:hover { transform: none; }
+    .testi-card:hover {
+      transform: none;
+    }
   }
 </style>
