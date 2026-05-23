@@ -45,9 +45,9 @@ export const hrefLangMap: Record<Locale, string> = {
 };
 
 export const contactInfo = {
-  whatsapp: '+905555555555',
+  whatsapp: '+905340360177',
   email: 'info@yezuri.com',
-  phone: '+90 555 555 55 55',
+  phone: '+90 534 036 01 77',
   address: 'İstanbul, Türkiye',
   social: {
     linkedin: 'https://www.linkedin.com/company/yezuri',
