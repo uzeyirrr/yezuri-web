@@ -18,6 +18,7 @@ const t = getDictionary(locale);
 const year = new Date().getFullYear();
 const home = localizedPath(locale, '/');
 const alternatePath = locale === 'tr' ? '/en/' : '/';
+const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-policy';
 ---
 
 <footer class="site-footer">
@@ -72,7 +73,7 @@ const alternatePath = locale === 'tr' ? '/en/' : '/';
     <p>&copy; {year} Yezuri. {t.footer.rights}</p>
     <ul>
       <li><a href="#">{t.footer.kvkk}</a></li>
-      <li><a href="#">{t.footer.privacy}</a></li>
+      <li><a href={privacyHref}>{t.footer.privacy}</a></li>
     </ul>
   </div>
 </footer>

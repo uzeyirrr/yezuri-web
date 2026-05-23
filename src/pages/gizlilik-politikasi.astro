@@ -1,0 +1,99 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import LegalDoc from '~/components/LegalDoc.astro';
+import { contactInfo } from '~/i18n/ui';
+
+const locale = 'tr' as const;
+const email = contactInfo.email;
+---
+
+<BaseLayout
+  title="Gizlilik Politikası | Yezuri"
+  description="Yezuri olarak kişisel verilerinizi nasıl topladığımızı, kullandığımızı ve koruduğumuzu açıklayan gizlilik politikamız."
+  locale={locale}
+  canonicalPath="/gizlilik-politikasi"
+  alternatePath="/en/privacy-policy"
+>
+  <LegalDoc eyebrow="Yasal" title="Gizlilik Politikası" updatedLabel="Son güncelleme" updated="23 Mayıs 2026">
+    <h2>1. Giriş</h2>
+    <p>
+      Bu Gizlilik Politikası, Yezuri (“biz”, “Yezuri”) olarak
+      <a href="https://yezuri.com">yezuri.com</a> ve ilgili sayfalarımız üzerinden topladığımız
+      kişisel verileri nasıl işlediğimizi açıklar. Sitemizi kullanarak burada açıklanan
+      uygulamaları kabul etmiş olursunuz.
+    </p>
+
+    <h2>2. Topladığımız Veriler</h2>
+    <p>Sizden veya kullanımınızdan aşağıdaki verileri toplayabiliriz:</p>
+    <ul>
+      <li><strong>İletişim bilgileri:</strong> formlar veya iletişim kanalları aracılığıyla bize ilettiğiniz ad-soyad, işletme adı, telefon/WhatsApp numarası ve e-posta adresi.</li>
+      <li><strong>İletişim içeriği:</strong> bize gönderdiğiniz mesaj ve taleplerin içeriği.</li>
+      <li><strong>Kullanım verileri:</strong> IP adresi, tarayıcı türü ve ziyaret edilen sayfalar gibi otomatik toplanan teknik veriler.</li>
+      <li><strong>Çerez verileri:</strong> aşağıdaki “Çerezler” bölümünde açıklanan veriler.</li>
+    </ul>
+
+    <h2>3. Verileri Hangi Amaçla Kullanıyoruz</h2>
+    <ul>
+      <li>Taleplerinize ve sorularınıza yanıt vermek, sizinle iletişime geçmek,</li>
+      <li>Hizmetlerimizi sunmak ve yürütmek,</li>
+      <li>Sitemizi ve hizmet kalitemizi iyileştirmek,</li>
+      <li>Açık rızanız olması hâlinde tanıtım ve pazarlama iletişimi yapmak,</li>
+      <li>Yasal yükümlülüklerimizi yerine getirmek.</li>
+    </ul>
+
+    <h2>4. Çerezler</h2>
+    <p>
+      Sitemiz; temel işlevsellik (örneğin tema tercihi) ve isteğe bağlı ziyaret istatistikleri
+      için çerezlerden ve benzer teknolojilerden yararlanabilir. Tarayıcı ayarlarınızdan çerezleri
+      kontrol edebilir veya silebilirsiniz; bu, sitenin bazı bölümlerinin çalışmasını etkileyebilir.
+    </p>
+
+    <h2>5. Verilerin Paylaşımı</h2>
+    <p>Kişisel verilerinizi satmıyoruz. Verileriniz yalnızca aşağıdaki durumlarda ve gerekli olduğu ölçüde paylaşılabilir:</p>
+    <ul>
+      <li>Hizmet aldığımız tedarikçiler (ör. barındırma, e-posta, CRM, mesajlaşma/WhatsApp hizmetleri) ile,</li>
+      <li>Yasal bir yükümlülük veya yetkili makam talebi hâlinde,</li>
+      <li>Açık rızanızın bulunduğu diğer durumlarda.</li>
+    </ul>
+
+    <h2>6. Verilerin Saklanması</h2>
+    <p>
+      Kişisel verilerinizi yalnızca işleme amacının gerektirdiği süre boyunca ve ilgili mevzuatta
+      öngörülen süreler kadar saklarız. Sürenin sonunda verileriniz silinir, yok edilir veya
+      anonim hâle getirilir.
+    </p>
+
+    <h2>7. Haklarınız (KVKK)</h2>
+    <p>
+      6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve ilgili mevzuat kapsamında;
+      verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini veya
+      silinmesini isteme, işlemeye itiraz etme ve veri taşınabilirliği gibi haklara sahipsiniz.
+      Taleplerinizi aşağıdaki iletişim adresinden bize iletebilirsiniz.
+    </p>
+
+    <h2>8. Güvenlik</h2>
+    <p>
+      Verilerinizi yetkisiz erişime, kayba ve kötüye kullanıma karşı korumak için makul teknik ve
+      idari tedbirler alıyoruz. Bununla birlikte, internet üzerinden hiçbir aktarımın %100 güvenli
+      olmadığını hatırlatırız.
+    </p>
+
+    <h2>9. Üçüncü Taraf Bağlantıları</h2>
+    <p>
+      Sitemiz, kontrolümüzde olmayan üçüncü taraf sitelere bağlantılar içerebilir. Bu sitelerin
+      gizlilik uygulamalarından sorumlu değiliz.
+    </p>
+
+    <h2>10. Politikadaki Değişiklikler</h2>
+    <p>
+      Bu politikayı zaman zaman güncelleyebiliriz. Güncel sürüm her zaman bu sayfada yayımlanır;
+      önemli değişikliklerde yukarıdaki “son güncelleme” tarihini revize ederiz.
+    </p>
+
+    <h2>11. İletişim</h2>
+    <p>
+      Gizlilikle ilgili soru ve talepleriniz için bize
+      <a href={`mailto:${email}`}>{email}</a> adresinden ulaşabilirsiniz.
+    </p>
+  </LegalDoc>
+</BaseLayout>

@@ -1,0 +1,98 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import LegalDoc from '~/components/LegalDoc.astro';
+import { contactInfo } from '~/i18n/ui';
+
+const locale = 'en' as const;
+const email = contactInfo.email;
+---
+
+<BaseLayout
+  title="Privacy Policy | Yezuri"
+  description="Our privacy policy explaining how Yezuri collects, uses and protects your personal data."
+  locale={locale}
+  canonicalPath="/en/privacy-policy"
+  alternatePath="/gizlilik-politikasi"
+>
+  <LegalDoc eyebrow="Legal" title="Privacy Policy" updatedLabel="Last updated" updated="May 23, 2026">
+    <h2>1. Introduction</h2>
+    <p>
+      This Privacy Policy explains how Yezuri (“we”, “Yezuri”) processes the personal data we
+      collect through <a href="https://yezuri.com">yezuri.com</a> and our related pages. By using
+      our site, you accept the practices described here.
+    </p>
+
+    <h2>2. Data We Collect</h2>
+    <p>We may collect the following data from you or your usage:</p>
+    <ul>
+      <li><strong>Contact details:</strong> your name, business name, phone/WhatsApp number and email address that you provide via forms or contact channels.</li>
+      <li><strong>Communication content:</strong> the content of the messages and requests you send us.</li>
+      <li><strong>Usage data:</strong> technical data collected automatically, such as IP address, browser type and pages visited.</li>
+      <li><strong>Cookie data:</strong> as described in the “Cookies” section below.</li>
+    </ul>
+
+    <h2>3. How We Use Data</h2>
+    <ul>
+      <li>To respond to your requests and questions and to contact you,</li>
+      <li>To provide and operate our services,</li>
+      <li>To improve our site and the quality of our services,</li>
+      <li>To send promotional and marketing communications where you have given consent,</li>
+      <li>To fulfil our legal obligations.</li>
+    </ul>
+
+    <h2>4. Cookies</h2>
+    <p>
+      Our site may use cookies and similar technologies for essential functionality (such as theme
+      preference) and, optionally, visit analytics. You can control or delete cookies from your
+      browser settings; doing so may affect how some parts of the site work.
+    </p>
+
+    <h2>5. Sharing of Data</h2>
+    <p>We do not sell your personal data. Your data may only be shared, to the extent necessary, in the following cases:</p>
+    <ul>
+      <li>With service providers we work with (e.g. hosting, email, CRM, messaging/WhatsApp services),</li>
+      <li>Where required by a legal obligation or a request from a competent authority,</li>
+      <li>In other cases where you have given explicit consent.</li>
+    </ul>
+
+    <h2>6. Data Retention</h2>
+    <p>
+      We retain your personal data only for as long as the processing purpose requires and for the
+      periods stipulated by applicable legislation. At the end of that period your data is deleted,
+      destroyed or anonymised.
+    </p>
+
+    <h2>7. Your Rights (KVKK / GDPR)</h2>
+    <p>
+      Under Turkey’s Personal Data Protection Law No. 6698 (KVKK), the GDPR and related legislation,
+      you have rights including learning whether your data is processed, requesting information,
+      requesting correction or deletion, objecting to processing, and data portability. You can send
+      your requests to the contact address below.
+    </p>
+
+    <h2>8. Security</h2>
+    <p>
+      We take reasonable technical and administrative measures to protect your data against
+      unauthorised access, loss and misuse. However, please note that no transmission over the
+      internet is 100% secure.
+    </p>
+
+    <h2>9. Third-Party Links</h2>
+    <p>
+      Our site may contain links to third-party sites that are not under our control. We are not
+      responsible for the privacy practices of those sites.
+    </p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>
+      We may update this policy from time to time. The current version is always published on this
+      page; for significant changes we revise the “last updated” date above.
+    </p>
+
+    <h2>11. Contact</h2>
+    <p>
+      For privacy-related questions and requests, you can reach us at
+      <a href={`mailto:${email}`}>{email}</a>.
+    </p>
+  </LegalDoc>
+</BaseLayout>
