@@ -31,7 +31,8 @@ const label = locale === 'tr' ? 'WhatsApp ile yaz' : 'Message us on WhatsApp';
   .wa-float {
     position: fixed;
     right: clamp(1rem, 3vw, 1.5rem);
-    bottom: clamp(1rem, 3vw, 1.5rem);
+    /* Chatwoot sohbet balonunun (sağ-alt) üstüne istiflenir, çakışmaz */
+    bottom: clamp(5.5rem, calc(4rem + 4vw), 6.5rem);
     z-index: 90;
     width: 60px;
     height: 60px;

@@ -3,6 +3,7 @@ import '~/styles/global.css';
 import SEO from '~/components/SEO.astro';
 import Logo from '~/components/Logo.astro';
 import WhatsAppFloat from '~/components/WhatsAppFloat.astro';
+import ChatWidget from '~/components/ChatWidget.astro';
 import { hrefLangMap, whatsappLink, type Locale } from '~/i18n/ui';
 
 export interface Props {
@@ -74,6 +75,7 @@ const year = new Date().getFullYear();
     </footer>
 
     <WhatsAppFloat locale={props.locale} />
+    <ChatWidget />
 
     <script>
       const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
