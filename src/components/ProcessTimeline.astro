@@ -50,9 +50,10 @@ const banner = locale === 'tr'
 
     <div class="process-banner reveal">
       <div class="process-avatars" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
+        <img src="https://i.pravatar.cc/80?img=12" width="34" height="34" loading="lazy" decoding="async" alt="" />
+        <img src="https://i.pravatar.cc/80?img=32" width="34" height="34" loading="lazy" decoding="async" alt="" />
+        <img src="https://i.pravatar.cc/80?img=45" width="34" height="34" loading="lazy" decoding="async" alt="" />
+        <img src="https://i.pravatar.cc/80?img=68" width="34" height="34" loading="lazy" decoding="async" alt="" />
       </div>
       <p class="process-banner-text">
         {banner.lead} <strong>{banner.highlight}</strong>
@@ -242,24 +243,18 @@ const banner = locale === 'tr'
     align-items: center;
     flex-shrink: 0;
   }
-  .process-avatars span {
+  .process-avatars img {
     width: 34px;
     height: 34px;
     border-radius: 50%;
     border: 2px solid var(--bg-elev);
     margin-left: -10px;
-    display: inline-block;
+    object-fit: cover;
+    background: var(--bg-elev-2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   }
-  .process-avatars span:first-child {
+  .process-avatars img:first-child {
     margin-left: 0;
-    background: linear-gradient(135deg, #ffb199, var(--accent));
-  }
-  .process-avatars span:nth-child(2) {
-    background: linear-gradient(135deg, var(--accent-hot), var(--accent-deep));
-  }
-  .process-avatars span:nth-child(3) {
-    background: linear-gradient(135deg, #5a0810, #1a0205);
   }
 
   .process-banner-text {

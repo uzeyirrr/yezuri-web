@@ -65,10 +65,10 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
 
     <p class="hero-micro reveal">
       <span class="avatar-stack" aria-hidden="true">
-        <span class="avatar avatar-1">N</span>
-        <span class="avatar avatar-2">K</span>
-        <span class="avatar avatar-3">A</span>
-        <span class="avatar avatar-4">L</span>
+        <img class="avatar" src="https://i.pravatar.cc/80?img=12" width="28" height="28" loading="lazy" decoding="async" alt="" />
+        <img class="avatar" src="https://i.pravatar.cc/80?img=32" width="28" height="28" loading="lazy" decoding="async" alt="" />
+        <img class="avatar" src="https://i.pravatar.cc/80?img=45" width="28" height="28" loading="lazy" decoding="async" alt="" />
+        <img class="avatar" src="https://i.pravatar.cc/80?img=68" width="28" height="28" loading="lazy" decoding="async" alt="" />
       </span>
       {t.hero.trustMicro}
     </p>
@@ -358,22 +358,13 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     height: 28px;
     border-radius: var(--radius-pill);
     border: 2px solid var(--bg-base);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 0.72rem;
-    color: white;
+    object-fit: cover;
+    background: var(--bg-elev-2);
     margin-left: -10px;
   }
   .avatar:first-child {
     margin-left: 0;
   }
-  .avatar-1 { background: linear-gradient(135deg, #e11d2e, #7f0e1a); }
-  .avatar-2 { background: linear-gradient(135deg, #ff3b4d, #e11d2e); }
-  .avatar-3 { background: linear-gradient(135deg, #7f0e1a, #25252f); }
-  .avatar-4 { background: linear-gradient(135deg, #ff3b4d, #ffb3bb); }
 
   .hero-cards {
     position: absolute;
