@@ -32,7 +32,7 @@ const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-poli
     </div>
 
     <div class="footer-col">
-      <h4>{t.footer.servicesTitle}</h4>
+      <h2>{t.footer.servicesTitle}</h2>
       <ul>
         {t.services.items.map((s) => (
           <li><a href={servicePath(locale, s.slug)}>{s.title}</a></li>
@@ -41,7 +41,7 @@ const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-poli
     </div>
 
     <div class="footer-col">
-      <h4>{t.footer.companyTitle}</h4>
+      <h2>{t.footer.companyTitle}</h2>
       <ul>
         <li><a href={`${home}#process`}>{t.nav.process}</a></li>
         <li><a href={`${home}#projects`}>{t.nav.projects}</a></li>
@@ -51,7 +51,7 @@ const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-poli
     </div>
 
     <div class="footer-col">
-      <h4>{t.footer.contactTitle}</h4>
+      <h2>{t.footer.contactTitle}</h2>
       <ul>
         <li><a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a></li>
         <li><a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}>{contactInfo.phone}</a></li>
@@ -98,7 +98,7 @@ const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-poli
     max-width: 320px;
     font-size: 0.95rem;
   }
-  .footer-col h4 {
+  .footer-col h2 {
     font-family: var(--font-display);
     font-size: 0.85rem;
     text-transform: uppercase;

@@ -12,7 +12,11 @@ const { locale, alternatePath } = Astro.props;
 const alt = alternateLocale(locale);
 ---
 
-<a href={alternatePath} class="lang-switch" aria-label={`Switch to ${alt.toUpperCase()}`}>
+<a
+  href={alternatePath}
+  class="lang-switch"
+  title={alt === 'en' ? 'Switch to English' : 'Türkçe sürüme geç'}
+>
   <span class:list={['lang-pill', locale === 'tr' && 'active']}>TR</span>
   <span class="lang-sep" aria-hidden="true">/</span>
   <span class:list={['lang-pill', locale === 'en' && 'active']}>EN</span>
