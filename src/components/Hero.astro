@@ -80,7 +80,7 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
           <span class="float-label">{t.hero.cardLiveLabel}</span>
         </header>
         <p>{t.hero.cardLiveProject}</p>
-        <a class="float-link" href={servicePath(locale, liveServiceSlug)}>
+        <a class="float-link" href={servicePath(locale, liveServiceSlug)} tabindex="-1">
           {t.services.ctaLabel}
           <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
