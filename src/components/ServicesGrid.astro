@@ -65,7 +65,7 @@ const dragHint = locale === 'tr' ? 'Kaydırmak için sürükleyin' : 'Drag to sc
           const num = String(i + 1).padStart(2, '0');
           return (
             <li class="service-card reveal" style={`transition-delay: ${i * 60}ms`}>
-              <article class="service-link" data-svc-card>
+              <article class="service-link" data-svc-card data-href={servicePath(locale, service.slug)} role="link" tabindex="0" aria-label={service.title}>
                 <span class="service-border" aria-hidden="true"></span>
                 <span class="service-shine" aria-hidden="true"></span>
                 <span class="service-mesh" aria-hidden="true"></span>
@@ -252,6 +252,7 @@ const dragHint = locale === 'tr' ? 'Kaydırmak için sürükleyin' : 'Drag to sc
     transform: translateZ(0);
     transition: transform 0.5s var(--ease-out);
     will-change: transform;
+    cursor: pointer;
   }
 
   .service-inner {
@@ -723,6 +724,23 @@ const dragHint = locale === 'tr' ? 'Kaydırmak için sürükleyin' : 'Drag to sc
       card.addEventListener('pointerleave', () => {
         card.style.transform = '';
       });
+
+      // Make the whole card clickable (a real drag is already suppressed by
+      // the capture-phase click handler on the track above).
+      const href = card.getAttribute('data-href');
+      if (href) {
+        card.addEventListener('click', (e) => {
+          // Let inner links (the CTA) handle their own navigation.
+          if ((e.target as HTMLElement).closest('a')) return;
+          window.location.href = href;
+        });
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.location.href = href;
+          }
+        });
+      }
     });
   }
 </script>
