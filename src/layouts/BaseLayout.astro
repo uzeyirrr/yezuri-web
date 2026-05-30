@@ -13,8 +13,9 @@ export interface Props {
   description: string;
   locale: Locale;
   canonicalPath: string;
-  alternatePath: string;
+  alternatePath?: string;
   ogImage?: string;
+  ogType?: string;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
 }
@@ -58,11 +59,11 @@ const props = Astro.props;
     <a class="skip-link" href="#main">
       {props.locale === 'tr' ? 'İçeriğe geç' : 'Skip to content'}
     </a>
-    <Header locale={props.locale} />
+    <Header locale={props.locale} alternatePath={props.alternatePath} />
     <main id="main">
       <slot />
     </main>
-    <Footer locale={props.locale} />
+    <Footer locale={props.locale} alternatePath={props.alternatePath} />
     <WhatsAppFloat locale={props.locale} />
     <ChatWidget />
 

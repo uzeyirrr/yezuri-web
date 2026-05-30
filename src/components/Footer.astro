@@ -11,13 +11,15 @@ import LanguageSwitcher from './LanguageSwitcher.astro';
 
 export interface Props {
   locale: Locale;
+  /** Bu sayfanın karşı dildeki yolu; verilmezse karşı dilin ana sayfasına döner. */
+  alternatePath?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, alternatePath: pageAlternatePath } = Astro.props;
 const t = getDictionary(locale);
 const year = new Date().getFullYear();
 const home = localizedPath(locale, '/');
-const alternatePath = locale === 'tr' ? '/en/' : '/';
+const alternatePath = pageAlternatePath ?? (locale === 'tr' ? '/en/' : '/');
 const privacyHref = locale === 'tr' ? '/gizlilik-politikasi' : '/en/privacy-policy';
 ---
 

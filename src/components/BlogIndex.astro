@@ -1,0 +1,68 @@
+---
+import BlogCard from '~/components/BlogCard.astro';
+import { blogUi, type BlogPost } from '~/utils/blog';
+import type { Locale } from '~/i18n/ui';
+
+export interface Props {
+  locale: Locale;
+  posts: BlogPost[];
+}
+
+const { locale, posts } = Astro.props;
+const ui = blogUi[locale];
+---
+
+<section class="blog-hero">
+  <div class="container">
+    <span class="eyebrow">{ui.eyebrow}</span>
+    <h1>{ui.heroTitle}</h1>
+    <p class="blog-hero-sub">{ui.heroSub}</p>
+  </div>
+</section>
+
+<section class="blog-list-section">
+  <div class="container">
+    {posts.length === 0 ? (
+      <p class="blog-empty">{ui.empty}</p>
+    ) : (
+      <div class="blog-grid">
+        {posts.map((post, i) => (
+          <BlogCard post={post} locale={locale} featured={i === 0} />
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .blog-hero {
+    padding-top: clamp(7rem, 16vw, 11rem);
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .blog-hero h1 {
+    margin-top: var(--space-4);
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    max-width: 16ch;
+  }
+  .blog-hero-sub {
+    margin-top: var(--space-5);
+    max-width: 60ch;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--text-mute);
+  }
+  .blog-list-section {
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .blog-empty {
+    color: var(--text-mute);
+    font-size: 1.1rem;
+  }
+</style>

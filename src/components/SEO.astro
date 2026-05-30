@@ -8,9 +8,12 @@ export interface Props {
   locale: Locale;
   /** Path relative to root, starting with /, no trailing slash. e.g. "/hizmetler/dijital-strateji" */
   canonicalPath: string;
-  /** Path of the alternate-locale version (already locale-prefixed when needed) */
-  alternatePath: string;
+  /** Path of the alternate-locale version (already locale-prefixed when needed).
+   *  Omit for single-language pages (e.g. blog) — alternate hreflang is then skipped. */
+  alternatePath?: string;
   ogImage?: string;
+  /** og:type — "website" (default) or "article" for blog posts. */
+  ogType?: string;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
 }
@@ -22,13 +25,14 @@ const {
   canonicalPath,
   alternatePath,
   ogImage = '/og-default.jpg',
+  ogType = 'website',
   structuredData,
   noindex = false,
 } = Astro.props;
 
 const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://yezuri.com';
 const canonicalUrl = `${site}${canonicalPath}`;
-const alternateUrl = `${site}${alternatePath}`;
+const alternateUrl = alternatePath ? `${site}${alternatePath}` : null;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`;
 
 const alt = alternateLocale(locale);
@@ -80,18 +84,20 @@ const ldArray = structuredData
 <link rel="canonical" href={canonicalUrl} />
 
 <link rel="alternate" hreflang={hrefLangMap[locale]} href={canonicalUrl} />
-<link rel="alternate" hreflang={hrefLangMap[alt]} href={alternateUrl} />
-<link rel="alternate" hreflang="x-default" href={`${site}${canonicalPath.replace(/^\/en/, '') || '/'}`} />
+{alternateUrl && <link rel="alternate" hreflang={hrefLangMap[alt]} href={alternateUrl} />}
+{alternateUrl && (
+  <link rel="alternate" hreflang="x-default" href={locale === 'tr' ? canonicalUrl : alternateUrl} />
+)}
 
 {noindex && <meta name="robots" content="noindex,nofollow" />}
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:site_name" content="Yezuri" />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:locale" content={hrefLangMap[locale].replace('-', '_')} />
-<meta property="og:locale:alternate" content={hrefLangMap[alt].replace('-', '_')} />
+{alternateUrl && <meta property="og:locale:alternate" content={hrefLangMap[alt].replace('-', '_')} />}
 <meta property="og:image" content={ogImageUrl} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />

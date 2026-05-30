@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none" role="img" aria-label="Süreç otomasyonu">
+  <defs>
+    <linearGradient id="pa-bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a0a0c"/>
+      <stop offset="1" stop-color="#0a0a0c"/>
+    </linearGradient>
+    <radialGradient id="pa-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 120) rotate(130) scale(520)">
+      <stop stop-color="#e11d2e" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#e11d2e" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="pa-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+    <filter id="pa-soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#pa-bg)"/>
+  <rect width="1200" height="630" fill="url(#pa-grid)"/>
+  <rect width="1200" height="630" fill="url(#pa-glow)"/>
+
+  <!-- workflow nodes -->
+  <g stroke="#e11d2e" stroke-width="3" opacity="0.9">
+    <path d="M470 250 H600 a40 40 0 0 1 40 40 V340 a40 40 0 0 0 40 40 H770" fill="none"/>
+    <path d="M470 380 H560 a40 40 0 0 0 40 -40 V300" fill="none" stroke-opacity="0.5"/>
+  </g>
+  <g filter="url(#pa-soft)" fill="#e11d2e" opacity="0.5">
+    <circle cx="470" cy="250" r="26"/><circle cx="770" cy="380" r="26"/>
+  </g>
+  <g>
+    <rect x="430" y="214" width="72" height="72" rx="18" fill="#14141a" stroke="#e11d2e" stroke-width="3"/>
+    <rect x="430" y="344" width="72" height="72" rx="18" fill="#14141a" stroke="#e11d2e" stroke-width="3" stroke-opacity="0.55"/>
+    <circle cx="600" cy="315" r="40" fill="#14141a" stroke="#ff3b4d" stroke-width="3"/>
+    <rect x="734" y="344" width="72" height="72" rx="18" fill="#e11d2e"/>
+  </g>
+  <!-- gear in center -->
+  <g transform="translate(600 315)" fill="#ff3b4d">
+    <circle r="11" fill="#0a0a0c"/>
+    <g>
+      <rect x="-4" y="-26" width="8" height="14" rx="2"/>
+      <rect x="-4" y="12" width="8" height="14" rx="2"/>
+      <rect x="-26" y="-4" width="14" height="8" rx="2"/>
+      <rect x="12" y="-4" width="14" height="8" rx="2"/>
+      <rect x="-21" y="-21" width="8" height="13" rx="2" transform="rotate(45 -17 -14)"/>
+      <rect x="13" y="8" width="8" height="13" rx="2" transform="rotate(45 17 14)"/>
+    </g>
+    <circle r="17" fill="none" stroke="#ff3b4d" stroke-width="6"/>
+  </g>
+  <!-- check on last node -->
+  <path d="M754 380 l12 13 l22 -26" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="80" y="96" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" fill="#ffffff" letter-spacing="0.5">Yezuri<tspan fill="#e11d2e">.</tspan></text>
+</svg>

@@ -1,0 +1,39 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import BlogIndex from '~/components/BlogIndex.astro';
+import { getPublishedPosts, blogUi } from '~/utils/blog';
+
+const locale = 'tr' as const;
+const ui = blogUi[locale];
+const posts = await getPublishedPosts(locale);
+
+const site = Astro.site?.toString().replace(/\/$/, '') ?? 'https://yezuri.com';
+const blogLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  '@id': `${site}/blog`,
+  name: 'Yezuri Blog',
+  description: ui.seoDescription,
+  url: `${site}/blog`,
+  inLanguage: 'tr-TR',
+  publisher: { '@id': `${site}/#organization` },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    description: p.data.description,
+    datePublished: p.data.pubDate.toISOString(),
+    url: `${site}/blog/${p.id}`,
+  })),
+};
+---
+
+<BaseLayout
+  title={ui.seoTitle}
+  description={ui.seoDescription}
+  locale={locale}
+  canonicalPath="/blog"
+  alternatePath="/en/blog"
+  structuredData={blogLd}
+>
+  <BlogIndex locale={locale} posts={posts} />
+</BaseLayout>

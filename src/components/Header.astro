@@ -6,9 +6,12 @@ import ThemeToggle from './ThemeToggle.astro';
 
 export interface Props {
   locale: Locale;
+  /** Bu sayfanın karşı dildeki yolu. Verilirse dil değiştirici sayfaya özel çalışır;
+   *  verilmezse karşı dilin ana sayfasına döner. */
+  alternatePath?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, alternatePath: pageAlternatePath } = Astro.props;
 const t = getDictionary(locale);
 const home = localizedPath(locale, '/');
 
@@ -16,11 +19,12 @@ const navLinks = [
   { href: `${home}#services`, label: t.nav.services },
   { href: `${home}#process`, label: t.nav.process },
   { href: `${home}#projects`, label: t.nav.projects },
+  { href: locale === 'tr' ? '/blog' : '/en/blog', label: t.nav.blog },
   { href: `${home}#faq`, label: locale === 'tr' ? 'SSS' : 'FAQ' },
   { href: `${home}#contact`, label: t.nav.contact },
 ];
 
-const alternatePath = locale === 'tr' ? '/en/' : '/';
+const alternatePath = pageAlternatePath ?? (locale === 'tr' ? '/en/' : '/');
 
 const wa = whatsappLink(locale === 'tr' ? 'Merhaba, Yezuri ile çalışmak istiyorum.' : 'Hi, I would like to work with Yezuri.');
 ---
