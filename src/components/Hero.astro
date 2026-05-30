@@ -142,6 +142,9 @@ const liveServiceSlug = locale === 'tr' ? 'bulut-gocu' : 'cloud-migration';
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    /* Orb'lar (70vmax, negatif konum) yatayda taşıp dokümanı genişletiyor;
+       bu da fixed WhatsApp/Chatwoot butonlarını ekran dışına itiyor. Yatayda kır. */
+    overflow-x: clip;
   }
 
   .hero-grid {
